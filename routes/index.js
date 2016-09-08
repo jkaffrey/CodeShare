@@ -4,7 +4,7 @@ module.exports = function(router, io) {
 
   router.get('/', function(req, res, next) {
 
-    res.render('index', { title: 'Noooo' });
+    res.render('index');
   });
 
   router.get('/code', function(req, res, next) {
@@ -17,17 +17,52 @@ module.exports = function(router, io) {
 
     res.render('codeView');
   });
+
+  //TODO: Socket.io code goes here
+  var codeConnection = io.on('connection', function(socket) {
+
+    socket.on('load', function(data) {
+
+      var codeRoom = findClientsSocket(io, data);
+    });
+
+    socket.on('login', function(data) {
+
+      var codeRoom = findClientsSocket(io, data);
+
+      socket.username = data.user;
+      socket.room = data.id;
+
+      socket.join(data.id); // add the client to the code room
+
+      codeConnection.in(data.id).emit('welcomeEvent'); //Send a user a welcome message when they login
+    });
+
+    socket.on('disconnect', function(data) {
+
+      // notify people when someone leaves the room
+      socket.broadcast.to(this.room).emit('userLeft', { room: this.room, user: this.username });
+      socket.leave(socket.room);
+    });
+
+    socket.on('codeChange', function(data) {
+
+      //console.log('Code change event received');
+      socket.broadcast.to(socket.room).emit('codeChangeHappen', { key: data.key });
+    });
+  });
 };
 
 function findClientsSocket(io, roomId, namespace) {
-  
+
   var res = [],
   ns = io.of(namespace || '/');
 
   if (ns) {
     for (var id in ns.connected) {
       if(roomId) {
-        var index = ns.connected[id].rooms.indexOf(roomId) ;
+        console.log(ns.connected[id].rooms);
+        var index = ns.connected[id].rooms.hasOwnProperty(roomId);
         if(index !== -1) {
           res.push(ns.connected[id]);
         }
