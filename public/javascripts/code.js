@@ -2,10 +2,7 @@
 
 $(function() {
 
-  $('pre code').each(function(i, block) {
-    
-    hljs.highlightBlock(block);
-  });
+  cleanUpHilighting();
 
   var id = window.location.pathname.split('/')[2];
   var socket = io();
@@ -29,3 +26,11 @@ $(function() {
     $('#codeArea').html(data.key);
   });
 });
+
+function cleanUpHilighting() {
+
+  $('pre code').each(function(i, block) {
+
+    hljs.highlightBlock(block);
+  });
+}
