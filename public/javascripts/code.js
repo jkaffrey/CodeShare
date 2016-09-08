@@ -2,6 +2,11 @@
 
 $(function() {
 
+  $('pre code').each(function(i, block) {
+    
+    hljs.highlightBlock(block);
+  });
+
   var id = window.location.pathname.split('/')[2];
   var socket = io();
 
@@ -10,7 +15,7 @@ $(function() {
   $("#codeArea").keypress(function(event) {
 
     console.log('Key down event fired.');
-    socket.emit('codeChange', { key: event.key });
+    socket.emit('codeChange', { key: $("#codeArea").html() });
   });
 
   socket.on('connect', function() {
@@ -20,6 +25,7 @@ $(function() {
 
   socket.on('codeChangeHappen', function(data) {
 
-    $('#codeArea').val($('#codeArea').val() + data.key);
+    // $('#codeArea').val($('#codeArea').val() + data.key);
+    $('#codeArea').html(data.key);
   });
 });
