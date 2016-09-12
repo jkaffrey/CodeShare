@@ -9,10 +9,13 @@ $(function() {
 
   socket.emit('login', { user: Math.random().toString(36).substring(3),  id: id });
 
+  $("#roomName").html(id);
+
   $("#codeArea").keypress(function(event) {
 
     console.log('Key down event fired.');
     socket.emit('codeChange', { key: $("#codeArea").html() });
+    cleanUpHilighting();
   });
 
   socket.on('connect', function() {
@@ -24,6 +27,7 @@ $(function() {
 
     // $('#codeArea').val($('#codeArea').val() + data.key);
     $('#codeArea').html(data.key);
+    cleanUpHilighting();
   });
 });
 
@@ -31,6 +35,6 @@ function cleanUpHilighting() {
 
   $('pre code').each(function(i, block) {
 
-    hljs.highlightBlock(block);
+    hljs.highlightAuto(block);
   });
 }
