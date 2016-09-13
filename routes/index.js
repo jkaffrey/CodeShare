@@ -41,7 +41,7 @@ module.exports = function(router, io) {
     //   console.log(JSON.stringify(res));
     // });
 
-    res.render('codeView', { fileView: res });
+    res.render('codeView', { directory: req.params.id });
   });
 
   //TODO: Socket.io code goes here
