@@ -4,6 +4,8 @@ var Prism      = require('prismjs');
 var fileStream = require('file-system');
 var fs         = require('fs');
 var path       = require('path');
+var url        = require('url');
+var dHelper     = require('../helpers/directoryHelper');
 
 module.exports = function(router, io) {
 
@@ -30,7 +32,16 @@ module.exports = function(router, io) {
       fs.mkdirSync(path.resolve('./') + '/workDirectories/' + req.params.id);
     }
 
-    res.render('codeView');
+    // var dirTree = (path.resolve('./') + '/workDirectories/' + req.params.id);
+    //
+    // dHelper.getDirObj(dirTree, function(err, res){
+    //   if(err)
+    //     console.error(err);
+    //
+    //   console.log(JSON.stringify(res));
+    // });
+
+    res.render('codeView', { fileView: res });
   });
 
   //TODO: Socket.io code goes here
@@ -50,7 +61,14 @@ module.exports = function(router, io) {
 
       socket.join(data.id); // add the client to the code room
 
-      codeConnection.in(data.id).emit('welcomeEvent', { numIn: codeRoom.length }); //Send a user a welcome message when they login
+      var dirTree = (path.resolve('./') + '/workDirectories/' + data.id);
+
+      dHelper.getDirObj(dirTree, function(err, res){
+        if(err) console.error(err);
+
+        console.log(res);
+        codeConnection.in(data.id).emit('welcomeEvent', { fileView: res }); //Send a user a welcome message when they login
+      });
     });
 
     socket.on('disconnect', function(data) {

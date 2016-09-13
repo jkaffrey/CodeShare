@@ -25,6 +25,13 @@ $(function() {
   socket.on('welcomeEvent', function(data) {
 
     //alert(data.numIn);
+    $('#fileTree').jstree(
+      {
+    		'core' : {
+    			'data' : data.fileView
+    		}
+    	}
+    );
   });
 
   socket.on('connect', function() {
