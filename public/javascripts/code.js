@@ -2,20 +2,24 @@
 
 $(function() {
 
-  cleanUpHilighting();
-
   var id = window.location.pathname.split('/')[2];
+  console.log(id);
   var socket = io();
 
-  socket.emit('login', { user: Math.random().toString(36).substring(3),  id: id });
+  var name = prompt('What is your name?'); //TODO: Change based off of login
+  socket.emit('login', { user: name,  id: id });
 
-  $("#roomName").html(id);
+  $('#roomName').html(id);
 
-  $("#codeArea").keypress(function(event) {
+  $('#codeArea').keydown(function(event) {
 
-    console.log('Key down event fired.');
-    socket.emit('codeChange', { key: $("#codeArea").html() });
-    cleanUpHilighting();
+    onKeyDown(event);
+  });
+
+  $('#codeArea').keypress(function(event) {
+
+    // console.log(event.keyCode);
+    socket.emit('codeChange', { key: $('#codeArea').html(), id: socket.id });
   });
 
   socket.on('connect', function() {
@@ -26,15 +30,99 @@ $(function() {
   socket.on('codeChangeHappen', function(data) {
 
     // $('#codeArea').val($('#codeArea').val() + data.key);
-    $('#codeArea').html(data.key);
-    cleanUpHilighting();
+    $('#codeArea').text(data.key);
   });
 });
 
-function cleanUpHilighting() {
+function onKeyDown(e) {
 
-  $('pre code').each(function(i, block) {
+  if (e.keyCode === 9) {
+    e.preventDefault();
 
-    hljs.highlightAuto(block);
-  });
+    var editor = document.getElementById('codeArea');
+    var doc = editor.ownerDocument.defaultView;
+    var sel = doc.getSelection();
+
+    var range = sel.getRangeAt(0);
+
+    var tabNode = document.createTextNode('\u00a0\u00a0\u00a0\u00a0');
+    range.insertNode(tabNode);
+
+    range.setStartAfter(tabNode);
+    range.setEndAfter(tabNode);
+    sel.removeAllRanges();
+    sel.addRange(range);
+  }
 }
+
+function getSelectionCoords(win) {
+  win = win || window;
+  var doc = win.document;
+  var sel = doc.selection, range, rects, rect;
+  var x = 0, y = 0;
+  if (sel) {
+    if (sel.type != "Control") {
+      range = sel.createRange();
+      range.collapse(true);
+      x = range.boundingLeft;
+      y = range.boundingTop;
+    }
+  } else if (win.getSelection) {
+    sel = win.getSelection();
+    if (sel.rangeCount) {
+      range = sel.getRangeAt(0).cloneRange();
+      if (range.getClientRects) {
+        range.collapse(true);
+        rects = range.getClientRects();
+        if (rects.length > 0) {
+          rect = rects[0];
+        }
+        x = rect.left;
+        y = rect.top;
+      }
+      // Fall back to inserting a temporary element
+      if (x == 0 && y == 0) {
+        var span = doc.createElement("span");
+        if (span.getClientRects) {
+          // Ensure span has dimensions and position by
+          // adding a zero-width space character
+          span.appendChild( doc.createTextNode("\u200b") );
+          range.insertNode(span);
+          rect = span.getClientRects()[0];
+          x = rect.left;
+          y = rect.top;
+          var spanParent = span.parentNode;
+          spanParent.removeChild(span);
+
+          // Glue any broken text nodes back together
+          spanParent.normalize();
+        }
+      }
+    }
+  }
+  return { x: x, y: y };
+}
+
+function getCursorElement (id) {
+  var elementId = 'cursor-' + id;
+  var element = document.getElementById(elementId);
+  if(element == null) {
+    element = document.createElement('span');
+    element.id = elementId;
+    element.className = 'cursor';
+    // Perhaps you want to attach these elements another parent than document
+    document.getElementById('codeArea').appendChild(element);
+    // document.body.appendChild(element);
+  }
+  return element;
+}
+
+document.onmouseup = function() {
+
+  var coords = getSelectionCoords();
+  var el = getCursorElement('123');
+  console.log(el.style);
+  el.style.left = coords.x;
+  el.style.top = coords.y;
+  console.log(coords.x + ", " + coords.y);
+};
