@@ -19,25 +19,19 @@ pre {
   3px 3px   0 rgba(255, 255, 255, 1.0),
   4px 4px   0 rgba(0,   0,   0,   0.125),
   6px 6px   0 rgba(255, 255, 255, 1.0),
-  7px 7px   0 rgba(0,   0,   0,   0.150),
-  9px 9px   0 rgba(255, 255, 255, 1.0),
-  10px 10px 0 rgba(0,   0,   0,   0.175);
+  7px 7px   0 rgba(0,   0,   0,   0.150);
   -moz-box-shadow:
   1px 1px   0 rgba(0,   0,   0,   0.100),
   3px 3px   0 rgba(255, 255, 255, 1.0),
   4px 4px   0 rgba(0,   0,   0,   0.125),
   6px 6px   0 rgba(255, 255, 255, 1.0),
-  7px 7px   0 rgba(0,   0,   0,   0.150),
-  9px 9px   0 rgba(255, 255, 255, 1.0),
-  10px 10px 0 rgba(0,   0,   0,   0.175);
+  7px 7px   0 rgba(0,   0,   0,   0.150);
   box-shadow:
   1px 1px   0 rgba(0,   0,   0,   0.100),
   3px 3px   0 rgba(255, 255, 255, 1.0),
   4px 4px   0 rgba(0,   0,   0,   0.125),
   6px 6px   0 rgba(255, 255, 255, 1.0),
-  7px 7px   0 rgba(0,   0,   0,   0.150),
-  9px 9px   0 rgba(255, 255, 255, 1.0),
-  10px 10px 0 rgba(0,   0,   0,   0.175);
+  7px 7px   0 rgba(0,   0,   0,   0.150);
 
 }
 
@@ -47,11 +41,8 @@ pre {
   display: inline-block;
 }
 
-.cursor {
+.fileTree {
 
-  position: absolute;
-  background: black;
-  width: 20px;
-  height: 20px;
-  border-radius: 10px;
+  margin-left: 10px;
+  border: 1px solid black;
 }
