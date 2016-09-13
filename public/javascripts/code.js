@@ -2,8 +2,8 @@
 
 $(function() {
 
-  var id = window.location.pathname.split('/')[2];
-  console.log(id);
+  var id = window.location.pathname.match(new RegExp('[^/]+$')); //window.location.pathname.split('/')[2];
+  console.log('id', id);
   var socket = io();
 
   var name = Math.random().toString(36).substring(4); //prompt('What is your name?'); //TODO: Change based off of login
