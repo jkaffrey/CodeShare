@@ -33,13 +33,19 @@ $(function() {
       }
     );
 
-    console.log(data.connected);
     $('.users').empty();
     for (var i = 0; i < data.connected.length; i++) {
 
       console.log(data.connected[i]);
       $('.users').prepend('<li>' + data.connected[i] + '</li>');
     }
+  });
+
+  socket.on('userLeft', function(data) {
+
+    var getHtml = $('.users').html();
+    getHtml = getHtml.replace('<li>' + data.user + '</li>', '');
+    $('.users').html(getHtml);
   });
 
   socket.on('connect', function() {
