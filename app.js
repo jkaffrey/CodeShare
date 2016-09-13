@@ -7,7 +7,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var app = express();
-var io = require('socket.io').listen(app.listen(8080));
+var io = require('socket.io').listen(app.listen(3000));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

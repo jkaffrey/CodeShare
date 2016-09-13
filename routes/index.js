@@ -1,6 +1,9 @@
 'use strict';
 
-var Prism = require('prismjs');
+var Prism      = require('prismjs');
+var fileStream = require('file-system');
+var fs         = require('fs');
+var path       = require('path');
 
 module.exports = function(router, io) {
 
@@ -16,6 +19,16 @@ module.exports = function(router, io) {
   });
 
   router.get('/code/:id', function(req, res, next) {
+
+    /* This will create a directory within the file system to store all the files */
+    if (!fs.existsSync(path.resolve('./') + '/workDirectories')) {
+
+      fs.mkdirSync(path.resolve('./') + '/workDirectories');
+    }
+
+    if (!fs.existsSync(path.resolve('./') + '/workDirectories/' + req.params.id)) {
+      fs.mkdirSync(path.resolve('./') + '/workDirectories/' + req.params.id);
+    }
 
     res.render('codeView');
   });
