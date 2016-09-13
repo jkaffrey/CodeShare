@@ -30,17 +30,19 @@ module.exports = function(router, io) {
 
     socket.on('login', function(data) {
 
-      var codeRoom = findClientsSocket(io, data);
+      var codeRoom = findClientsSocket(io, data); //codeRoom.length === number of people in room
 
       socket.username = data.user;
       socket.room = data.id;
 
       socket.join(data.id); // add the client to the code room
 
-      codeConnection.in(data.id).emit('welcomeEvent'); //Send a user a welcome message when they login
+      codeConnection.in(data.id).emit('welcomeEvent', { numIn: codeRoom.length }); //Send a user a welcome message when they login
     });
 
     socket.on('disconnect', function(data) {
+
+      var codeRoom = findClientsSocket(io, data);
 
       // notify people when someone leaves the room
       console.log('Someone left', this.username);

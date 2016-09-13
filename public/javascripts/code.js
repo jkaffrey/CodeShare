@@ -6,7 +6,7 @@ $(function() {
   console.log(id);
   var socket = io();
 
-  var name = prompt('What is your name?'); //TODO: Change based off of login
+  var name = Math.random().toString(36).substring(4); //prompt('What is your name?'); //TODO: Change based off of login
   socket.emit('login', { user: name,  id: id });
 
   $('#roomName').html(id);
@@ -16,10 +16,15 @@ $(function() {
     onKeyDown(event);
   });
 
-  $('#codeArea').keypress(function(event) {
+  $('#codeArea').keyup(function(event) {
 
     // console.log(event.keyCode);
-    socket.emit('codeChange', { key: $('#codeArea').html(), id: socket.id });
+    socket.emit('codeChange', { key: $('#codeArea').html() });
+  });
+
+  socket.on('welcomeEvent', function(data) {
+
+    //alert(data.numIn);
   });
 
   socket.on('connect', function() {
@@ -30,7 +35,7 @@ $(function() {
   socket.on('codeChangeHappen', function(data) {
 
     // $('#codeArea').val($('#codeArea').val() + data.key);
-    $('#codeArea').text(data.key);
+    $('#codeArea').html(data.key);
   });
 });
 
@@ -103,26 +108,12 @@ function getSelectionCoords(win) {
   return { x: x, y: y };
 }
 
-function getCursorElement (id) {
-  var elementId = 'cursor-' + id;
-  var element = document.getElementById(elementId);
-  if(element == null) {
-    element = document.createElement('span');
-    element.id = elementId;
-    element.className = 'cursor';
-    // Perhaps you want to attach these elements another parent than document
-    document.getElementById('codeArea').appendChild(element);
-    // document.body.appendChild(element);
-  }
-  return element;
-}
-
 document.onmouseup = function() {
 
   var coords = getSelectionCoords();
-  var el = getCursorElement('123');
-  console.log(el.style);
-  el.style.left = coords.x;
-  el.style.top = coords.y;
+  //var el = getCursorElement('123');
+  //console.log(el.style);
+  //el.style.left = coords.x;
+  //el.style.top = coords.y;
   console.log(coords.x + ", " + coords.y);
 };
