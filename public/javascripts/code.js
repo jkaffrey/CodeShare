@@ -11,7 +11,6 @@ $(function() {
 
   $('#roomName').html(id);
 
-  //Things
   $('#codeArea').keydown(function(event) {
 
     onKeyDown(event);
@@ -28,11 +27,19 @@ $(function() {
     //alert(data.numIn);
     $('#fileTree').jstree(
       {
-    		'core' : {
-    			'data' : data.fileView
-    		}
-    	}
+        'core' : {
+          'data' : data.fileView
+        }
+      }
     );
+
+    console.log(data.connected);
+    $('.users').empty();
+    for (var i = 0; i < data.connected.length; i++) {
+
+      console.log(data.connected[i]);
+      $('.users').prepend('<li>' + data.connected[i] + '</li>');
+    }
   });
 
   socket.on('connect', function() {

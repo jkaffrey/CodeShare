@@ -54,20 +54,30 @@ module.exports = function(router, io) {
 
     socket.on('login', function(data) {
 
-      var codeRoom = findClientsSocket(io, data); //codeRoom.length === number of people in room
-
       socket.username = data.user;
       socket.room = data.id;
 
+      // console.log('username', data.user);
+      // console.log('socket name', socket.username);
+
       socket.join(data.id); // add the client to the code room
+
+      var codeRoom = findClientsSocket(io, data); //codeRoom.length === number of people in room
+      var users = [];
+
+      for (var i = 0; i < codeRoom.length; i++) {
+
+        users.push(codeRoom[i].username);
+      }
 
       var dirTree = (path.resolve('./') + '/workDirectories/' + data.id);
 
       dHelper.getDirObj(dirTree, function(err, res){
         if(err) console.error(err);
 
-        console.log(res);
-        codeConnection.in(data.id).emit('welcomeEvent', { fileView: res }); //Send a user a welcome message when they login
+        // console.log(res);
+        // console.log('name:', codeRoom[0]);
+        codeConnection.in(data.id).emit('welcomeEvent', { fileView: res, connected: users }); //Send a user a welcome message when they login
       });
     });
 

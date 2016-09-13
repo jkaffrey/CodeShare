@@ -41,7 +41,7 @@ pre {
   display: inline-block;
 }
 
-.fileTree {
+.fileTree, .connectedUsers {
 
   margin-left: 10px;
   border: 1px solid black;
