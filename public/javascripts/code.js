@@ -11,6 +11,7 @@ $(function() {
 
   $('#roomName').html(id);
 
+  //Things
   $('#codeArea').keydown(function(event) {
 
     onKeyDown(event);
