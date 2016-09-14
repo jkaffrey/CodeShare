@@ -1,5 +1,6 @@
 'use strict';
 
+require('dotenv').config();
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -21,7 +22,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 require('./routes/index')(app, io);
-require('./routes/auth');
+require('./routes/auth')(app);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
