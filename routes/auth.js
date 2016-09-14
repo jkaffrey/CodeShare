@@ -9,6 +9,11 @@ const errors = require('../helpers/errorStandards');
 
 module.exports = function(router) {
 
+  router.post('/auth/signup', function(req, res) {
+
+
+  });
+
   router.post('/auth/login', function(req, res, next) {
 
     knex('users')
@@ -22,6 +27,8 @@ module.exports = function(router) {
         if (req.body.password === data.password) {
 
           delete data.password;
+          delete data.securityAnswer;
+
           var token = jwt.sign(data, process.env.SECRET);
           res.status(200).json({
             status: 'success',
