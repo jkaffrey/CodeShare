@@ -25,3 +25,17 @@ function createFolder() {
     socket.emit('fileManip', { action: 'createFolder', dir: getPath() });
   }
 }
+
+function deleteItem() {
+
+  if (getPath().indexOf('false') < 0) {
+    socket.emit('fileManip', { action: 'delete', dir: getPath() });
+  }
+}
+
+function renameItem() {
+
+  if (getPath().indexOf('false') < 0) {
+    socket.emit('fileManip', { action: 'rename', dir: getPath() });
+  }
+}

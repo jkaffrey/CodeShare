@@ -58,3 +58,15 @@ pre {
   list-style: none;
   padding-left: 0;
 }
+
+.imgButton {
+
+  float: right;
+  padding-right: 15px;
+}
+
+.imgButton:hover {
+
+  cursor: pointer;
+  opacity: .75;
+}

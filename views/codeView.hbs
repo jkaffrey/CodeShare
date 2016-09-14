@@ -5,10 +5,9 @@
       <span>Project: {{directory}}</span>
       <div id="fileTree"></div>
       <hr />
-      <button class="btn btn-primary" onclick="createFile()">[+ File] </button><br />
-      <button class="btn btn-success" onclick="createFolder()">[+ Folder]</button><br />
-      <button class="btn btn-info" onclick="rename()">[Rename]</button><br />
-      <button class="btn btn-danger" onclick="deleteFunc()">[-]</button>
+      <img class="imgButton" src="../images/file_add.png" onclick="createFile()" />
+      <img class="imgButton" src="../images/file_edit.png" onclick="renameItem()" />
+      <img class="imgButton" src="../images/file_delete.png" onclick="deleteItem()" />
     </div>
     <div class="row connectedUsers panel panel-body">
       <strong><span>Connected Clients</span>&nbsp;[<span id="numUsers">1</span>]</strong>
