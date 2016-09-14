@@ -22,6 +22,14 @@ $(function() {
     socket.emit('codeChange', { key: $('#codeArea').html() });
   });
 
+  $('#fileTree').on("changed.jstree", function (e, data) {
+
+    console.log(data.selected);
+    // console.log(id + '/' + $('#fileTree').jstree(true).get_path(data.selected, '/'));
+  });
+
+  /* Begin Sockets */
+
   socket.on('welcomeEvent', function(data) {
 
     //alert(data.numIn);

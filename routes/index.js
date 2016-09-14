@@ -106,6 +106,11 @@ module.exports = function(router, io) {
       // console.log(codeHi, '\n--');
       socket.broadcast.to(socket.room).emit('codeChangeHappen', { key: codeHi });
     });
+
+    socket.on('fileManip', function(data) {
+
+      console.log(JSON.stringify(data));
+    });
   });
 };
 

@@ -1,43 +1,27 @@
 'use strict';
 
-function createFolder() {
-  var ref = $('#fileTree').jstree(true),
-  sel = ref.get_selected();
-  if(!sel.length) { return false; }
-  sel = sel[0];
-  sel = ref.create_node(sel, {"type":"folder"});
-  if(sel) {
-    ref.edit(sel);
-  }
+var socket = io();
+
+function getProject() {
+
+  return window.location.pathname.match(new RegExp('[^/]+$'));
+}
+
+function getPath() {
+
+  return getProject() + '/' + $('#fileTree').jstree(true).get_path($('#fileTree').jstree(true).get_selected(), '/');
 }
 
 function createFile() {
 
-  console.log('called');
-  var ref = $('#fileTree').jstree(),
-  sel = ref.get_selected();
-  if(!sel.length) { return false; }
-  console.log('got here', ref);
-  sel = sel[0];
-  console.log('b4 broken', sel);
-  sel = ref.create_node(sel, {type:"file"});
-  console.log('broken', sel);
-  if(sel) {
-    ref.edit(sel);
+  if (getPath().indexOf('false') < 0) {
+    socket.emit('fileManip', { action: 'createFile', dir: getPath() });
   }
 }
 
-function rename() {
-  var ref = $('#fileTree').jstree(),
-  sel = ref.get_selected();
-  if(!sel.length) { return false; }
-  sel = sel[0];
-  ref.edit(sel);
-}
+function createFolder() {
 
-function deleteFunc() {
-  var ref = $('#fileTree').jstree(),
-  sel = ref.get_selected();
-  if(!sel.length) { return false; }
-  ref.delete_node(sel);
+  if (getPath().indexOf('false') < 0) {
+    socket.emit('fileManip', { action: 'createFolder', dir: getPath() });
+  }
 }
