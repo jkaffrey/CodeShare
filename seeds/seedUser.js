@@ -25,7 +25,7 @@ exports.seed = function(knex, Promise) {
             password: '1234',
             securtyQuestion: 'Name of first pet?',
             securityAnswer: '1234',
-            profilePicture: null
+            profilePicture: 'http://placekitten.com/g/200/300'
           }
         ),
 
