@@ -39,13 +39,26 @@ $(function() {
       console.log(data.connected[i]);
       $('.users').prepend('<li>' + data.connected[i] + '</li>');
     }
+
+    $('.numUsers').html(data.connected.length);
+    $('.recentConnections').prepend('<li>' + data.who + ' connected. [' + data.when + ']</li>');
+
+    reduceEvents();
   });
 
   socket.on('userLeft', function(data) {
 
-    var getHtml = $('.users').html();
-    getHtml = getHtml.replace('<li>' + data.user + '</li>', '');
-    $('.users').html(getHtml);
+    $('.users').empty();
+    for (var i = 0; i < data.connected.length; i++) {
+
+      console.log(data.connected[i]);
+      $('.users').prepend('<li>' + data.connected[i] + '</li>');
+    }
+
+    $('.numUsers').html(data.connected.length);
+    $('.recentConnections').prepend('<li>' + data.user + ' disconnected. [' + data.when + ']</li>');
+
+    reduceEvents();
   });
 
   socket.on('connect', function() {
@@ -59,6 +72,17 @@ $(function() {
     $('#codeArea').html(data.key);
   });
 });
+
+function reduceEvents() {
+
+  var listItems = $('.recentConnections').html().split('</li>');
+  if (listItems.length > 5) {
+
+    listItems = listItems.slice(0, 5);
+  }
+
+  $('.recentConnections').html(listItems.join('</li>'));
+}
 
 function onKeyDown(e) {
 

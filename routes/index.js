@@ -5,6 +5,7 @@ var fileStream = require('file-system');
 var fs         = require('fs');
 var path       = require('path');
 var url        = require('url');
+var moment     = require('moment');
 var dHelper     = require('../helpers/directoryHelper');
 
 module.exports = function(router, io) {
@@ -77,17 +78,24 @@ module.exports = function(router, io) {
 
         // console.log(res);
         // console.log('name:', codeRoom[0]);
-        codeConnection.in(data.id).emit('welcomeEvent', { fileView: res, connected: users }); //Send a user a welcome message when they login
+        codeConnection.in(data.id).emit('welcomeEvent', { fileView: res, connected: users, who: socket.username, when: moment().format('LTS') }); //Send a user a welcome message when they login
       });
+
+      // console.log(moment(moment().format('LTS'), 'hh:mm:ss a').fromNow());
     });
 
     socket.on('disconnect', function(data) {
 
       var codeRoom = findClientsSocket(io, data);
 
-      // notify people when someone leaves the room
-      console.log('Someone left', this.username);
-      socket.broadcast.to(this.room).emit('userLeft', { room: this.room, user: this.username });
+      var users = [];
+
+      for (var i = 0; i < codeRoom.length; i++) {
+
+        users.push(codeRoom[i].username);
+      }
+
+      socket.broadcast.to(this.room).emit('userLeft', { room: this.room, user: this.username, connected: users, when: moment().format('LTS') });
       socket.leave(socket.room);
     });
 
