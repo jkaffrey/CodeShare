@@ -35,10 +35,27 @@ pre {
 
 }
 
+.panel {
+
+  -webkit-box-shadow: 0px 10px 5px -5px rgba(0,0,0,0.5);
+  -moz-box-shadow: 0px 10px 5px -5px rgba(0,0,0,0.5);
+  box-shadow: 0px 10px 5px -5px rgba(0,0,0,0.5);
+}
+
 #codeArea {
 
   position: relative;
   display: inline-block;
+}
+
+.red {
+
+  color: rgb(255, 66, 66);
+}
+
+.green {
+
+  color: rgb(186, 255, 91);
 }
 
 .fileTree, .connectedUsers {

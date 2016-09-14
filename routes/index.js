@@ -92,7 +92,7 @@ module.exports = function(router, io) {
 
       for (var i = 0; i < codeRoom.length; i++) {
 
-        users.push(codeRoom[i].username);
+        if (codeRoom[i].username != null) users.push(codeRoom[i].username);
       }
 
       socket.broadcast.to(this.room).emit('userLeft', { room: this.room, user: this.username, connected: users, when: moment().format('LTS') });

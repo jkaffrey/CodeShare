@@ -44,12 +44,12 @@ $(function() {
     $('.users').empty();
     for (var i = 0; i < data.connected.length; i++) {
 
-      console.log(data.connected[i]);
-      $('.users').prepend('<li>' + data.connected[i] + '</li>');
+      console.log(data.connected[i] != null);
+      if (data.connected[i] != null) $('.users').prepend('<li>' + data.connected[i] + '</li>');
     }
 
     $('.numUsers').html(data.connected.length);
-    $('.recentConnections').prepend('<li>' + data.who + ' connected. [' + data.when + ']</li>');
+    $('.recentConnections').prepend('<li>' + data.who + ' <span class="green">connected</span>. [' + data.when + ']</li>');
 
     reduceEvents();
   });
@@ -59,12 +59,11 @@ $(function() {
     $('.users').empty();
     for (var i = 0; i < data.connected.length; i++) {
 
-      console.log(data.connected[i]);
       $('.users').prepend('<li>' + data.connected[i] + '</li>');
     }
 
     $('.numUsers').html(data.connected.length);
-    $('.recentConnections').prepend('<li>' + data.user + ' disconnected. [' + data.when + ']</li>');
+    $('.recentConnections').prepend('<li>' + data.user + ' <span class="red">disconnected</span>. [' + data.when + ']</li>');
 
     reduceEvents();
   });
