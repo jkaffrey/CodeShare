@@ -23,6 +23,7 @@ var directoryTreeToObj = function(dir, done) {
             results.push({
               text: path.basename(file),
               type: 'folder',
+              icon: 'https://cdn2.iconfinder.com/data/icons/thesquid-ink-40-free-flat-icon-pack/64/folder-16.png',
               children: res
             });
             if (!--pending)
@@ -33,7 +34,7 @@ var directoryTreeToObj = function(dir, done) {
           results.push({
             type: 'file',
             text: path.basename(file),
-            icon : 'jstree-file'
+            icon : 'https://cdn2.iconfinder.com/data/icons/snipicons/500/file-16.png'
           });
           if (!--pending)
           done(null, results);
