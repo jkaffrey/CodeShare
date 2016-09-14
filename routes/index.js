@@ -124,12 +124,14 @@ function findClientsSocket(io, roomId, namespace) {
       if(roomId) {
         console.log(ns.connected[id].rooms);
         var index = ns.connected[id].rooms.hasOwnProperty(roomId);
-        if(index !== -1) {
+        if(index !== -1 && ns.connected[id] != null) {
           res.push(ns.connected[id]);
         }
       }
       else {
-        res.push(ns.connected[id]);
+        if (ns.connected[id] != null) {
+          res.push(ns.connected[id]);
+        }
       }
     }
   }
