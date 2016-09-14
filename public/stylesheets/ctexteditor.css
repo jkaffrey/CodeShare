@@ -46,3 +46,15 @@ pre {
   margin-left: 10px;
   border: 1px solid black;
 }
+
+.users {
+
+  list-style-image: url("https://cdn4.iconfinder.com/data/icons/fugue/icon/status.png");
+  padding-left: 20px;
+}
+
+.recentConnections {
+
+  list-style: none;
+  padding-left: 0;
+}
