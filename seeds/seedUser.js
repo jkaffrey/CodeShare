@@ -1,13 +1,45 @@
+'use strict';
 
 exports.seed = function(knex, Promise) {
-  // Deletes ALL existing entries
-  return knex('table_name').del()
+
+  return knex('users').del()
     .then(function () {
       return Promise.all([
-        // Inserts seed entries
-        knex('table_name').insert({id: 1, colName: 'rowValue1'}),
-        knex('table_name').insert({id: 2, colName: 'rowValue2'}),
-        knex('table_name').insert({id: 3, colName: 'rowValue3'})
+        knex('users').insert(
+          {
+            email: 'j@kaffrey.com',
+            password: '1234',
+            firstname: 'Jeremy',
+            lastname: 'Kaffrey',
+            securtyQuestion: 'Name of first school?',
+            securityAnswer: '1234',
+            profilePicture: null
+          }
+        ),
+
+        knex('users').insert(
+          {
+            email: 'a@kaffrey.com',
+            firstname: 'Aaron',
+            lastname: 'Kaffrey',
+            password: '1234',
+            securtyQuestion: 'Name of first pet?',
+            securityAnswer: '1234',
+            profilePicture: null
+          }
+        ),
+
+        knex('users').insert(
+          {
+            email: 'z@kaffrey.com',
+            firstname: 'Zachary',
+            lastname: 'Kaffrey',
+            password: '1234',
+            securtyQuestion: 'Mothers maiden name?',
+            securityAnswer: '1234',
+            profilePicture: null
+          }
+        )
       ]);
     });
 };
