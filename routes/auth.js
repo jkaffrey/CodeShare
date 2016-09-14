@@ -11,7 +11,18 @@ module.exports = function(router) {
 
   router.post('/auth/signup', function(req, res) {
 
-
+    knex('users')
+    .insert(
+      {
+        email: req.body.email,
+        password: req.body.password,
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        profilePicture: req.body.profileUrl,
+        securityQuestion: req.body.securityQuestion,
+        securityAnswer: req.body.securityAnswer
+      }
+    );
   });
 
   router.post('/auth/login', function(req, res, next) {

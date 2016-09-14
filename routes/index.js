@@ -15,6 +15,11 @@ module.exports = function(router, io) {
     res.render('index');
   });
 
+  router.get('/register', function(req, res, next) {
+
+    res.render('signup');
+  });
+
   router.get('/code', function(req, res, next) {
 
     var uniqueId = Math.random().toString(36).substring(7);
