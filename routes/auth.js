@@ -47,10 +47,13 @@ module.exports = function(router) {
           delete data.securityAnswer;
 
           var token = jwt.sign(data, process.env.SECRET);
-          req.session.auth_token = token;
+          req.session.access_token = token;
+          console.log(token);
+
+          // res.redirect('/code');
           res.status(200).json({
             status: 'success',
-            token: req.session,
+            token: req.session.access_token,
             user: data
           });
         } else {

@@ -23,11 +23,13 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.set('trust proxy', 1); // trust first proxy
 app.use(cookieSession({
   name: 'session',
   keys: [process.env.C_SECRET_0, process.env.C_SECRET_1]
 }));
-app.use(express.static(path.join(__dirname, 'public')));
 
 require('./routes/index')(app, io, router);
 require('./routes/auth')(app);

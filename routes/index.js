@@ -6,24 +6,29 @@ var fs         = require('fs');
 var path       = require('path');
 var url        = require('url');
 var moment     = require('moment');
-var expressJWT = require('express-jwt');
-var dHelper     = require('../helpers/directoryHelper');
+var jwt        = require('jsonwebtoken');
+var dHelper    = require('../helpers/directoryHelper');
 
 module.exports = function(router, io, routerRet) {
 
   router.get('/', function(req, res, next) {
 
+    console.log('Me', req.session.access_token);
     res.render('index');
   });
 
-  router.get('/code', expressJWT({ secret: process.env.SECRET }), function(req, res, next) {
+  // router.use(function(req, res, next) { checkJWT(req, res, next); });
 
+  router.get('/code', function(req, res, next) {
+
+    checkJWT(req, res, next);
     var uniqueId = Math.random().toString(36).substring(7);
     res.redirect('/code/' + uniqueId);
   });
 
-  router.get('/code/:id', expressJWT({ secret: process.env.SECRET }), function(req, res, next) {
+  router.get('/code/:id', function(req, res, next) {
 
+    checkJWT(req, res, next);
     /* This will create a directory within the file system to store all the files */
     if (!fs.existsSync(path.resolve('./') + '/workDirectories')) {
 
@@ -116,6 +121,28 @@ module.exports = function(router, io, routerRet) {
 
   return routerRet;
 };
+
+function checkJWT(req, res, next) {
+
+  var token = req.session.access_token;
+  if (token) {
+
+    jwt.verify(token, process.env.SECRET, function(err, decoded) {
+      if (err) {
+        return res.status(401).send({
+          success: false,
+          message: 'No token provided.'
+        });
+      }
+    });
+  } else {
+
+    return res.status(401).send({
+      success: false,
+      message: 'No token provided.'
+    });
+  }
+}
 
 function findClientsSocket(io, roomId, namespace) {
 
