@@ -63,3 +63,7 @@ input::-webkit-input-placeholder {
   font-size: 11px;
   text-align: center;
 }
+
+input:invalid {
+  border: 1px solid red;
+}
