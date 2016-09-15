@@ -25,6 +25,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// app.use(function(req,res,next){
+//   res.local.req = req;
+//   next();
+// });
+
 app.set('trust proxy', 1); // trust first proxy
 app.use(cookieSession({
   name: 'session',
@@ -33,6 +38,7 @@ app.use(cookieSession({
 
 require('./routes/index')(app, io, router);
 require('./routes/auth')(app);
+require('./routes/users')(app, router);
 
 
 // catch 404 and forward to error handler

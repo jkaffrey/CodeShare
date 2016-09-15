@@ -3,11 +3,14 @@
 $(function() {
 
   var id = window.location.pathname.match(new RegExp('[^/]+$')); //window.location.pathname.split('/')[2];
-  console.log('id', id);
+  // console.log('id', id);
   var socket = io();
 
-  var name = Math.random().toString(36).substring(4); //prompt('What is your name?'); //TODO: Change based off of login
-  socket.emit('login', { user: name,  id: id });
+  $.get('http://localhost:3000/api/v1/loggedInfo', function(data) {
+
+    var name = data.firstname + ' ' + data.lastname; //Math.random().toString(36).substring(4); //prompt('What is your name?'); //TODO: Change based off of login
+    socket.emit('login', { user: name,  id: id });
+  });
 
   $('#roomName').html(id);
 
@@ -60,7 +63,7 @@ $(function() {
 
       $('.users').prepend('<li>' + data.connected[i] + '</li>');
     }
-    
+
     $('.recentConnections').prepend('<li>' + data.user + ' <span class="red">disconnected</span>. [' + data.when + ']</li>');
 
     reduceEvents();
