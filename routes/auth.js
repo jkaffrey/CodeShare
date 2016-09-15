@@ -9,6 +9,11 @@ const errors = require('../helpers/errorStandards');
 
 module.exports = function(router) {
 
+  router.get('/register', function(req, res, next) {
+
+    res.render('signup');
+  });
+
   router.post('/auth/signup', function(req, res) {
 
     knex('users')
@@ -16,8 +21,8 @@ module.exports = function(router) {
       {
         email: req.body.email,
         password: req.body.password,
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
+        firstname: req.body.name.split(' ')[0],
+        lastname: req.body.name.split(' ')[1],
         profilePicture: req.body.profileUrl,
         securityQuestion: req.body.securityQuestion,
         securityAnswer: req.body.securityAnswer

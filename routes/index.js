@@ -6,27 +6,23 @@ var fs         = require('fs');
 var path       = require('path');
 var url        = require('url');
 var moment     = require('moment');
+var expressJWT = require('express-jwt');
 var dHelper     = require('../helpers/directoryHelper');
 
-module.exports = function(router, io) {
+module.exports = function(router, io, routerRet) {
 
   router.get('/', function(req, res, next) {
 
     res.render('index');
   });
 
-  router.get('/register', function(req, res, next) {
-
-    res.render('signup');
-  });
-
-  router.get('/code', function(req, res, next) {
+  router.get('/code', expressJWT({ secret: process.env.SECRET }), function(req, res, next) {
 
     var uniqueId = Math.random().toString(36).substring(7);
     res.redirect('/code/' + uniqueId);
   });
 
-  router.get('/code/:id', function(req, res, next) {
+  router.get('/code/:id', expressJWT({ secret: process.env.SECRET }), function(req, res, next) {
 
     /* This will create a directory within the file system to store all the files */
     if (!fs.existsSync(path.resolve('./') + '/workDirectories')) {
@@ -117,6 +113,8 @@ module.exports = function(router, io) {
       console.log(JSON.stringify(data));
     });
   });
+
+  return routerRet;
 };
 
 function findClientsSocket(io, roomId, namespace) {
