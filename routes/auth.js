@@ -32,6 +32,7 @@ module.exports = function(router) {
 
   router.post('/auth/login', function(req, res, next) {
 
+    console.log("reached");
     knex('users')
     .where({ email: req.body.email })
     .first('*')
@@ -46,9 +47,10 @@ module.exports = function(router) {
           delete data.securityAnswer;
 
           var token = jwt.sign(data, process.env.SECRET);
+          req.session.auth_token = token;
           res.status(200).json({
             status: 'success',
-            token: token,
+            token: req.session,
             user: data
           });
         } else {

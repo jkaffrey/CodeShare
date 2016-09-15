@@ -11,6 +11,8 @@ var app = express();
 var router = express.Router();
 var io = require('socket.io').listen(app.listen(3000));
 var expressJWT = require('express-jwt');
+var cookieSession = require('cookie-session');
+const errors = require('./helpers/errorStandards');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -21,6 +23,10 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(cookieSession({
+  name: 'session',
+  keys: [process.env.C_SECRET_0, process.env.C_SECRET_1]
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 require('./routes/index')(app, io, router);
@@ -35,6 +41,19 @@ app.use(function(req, res, next) {
 });
 
 // error handlers
+
+//unauthorized error handler
+app.use(function(err, req, res, next) {
+  if (err.status === 401) {
+    res.status(401).send({
+      message: errors.unauthorizedRequest,
+      status: 401,
+      error: err.inner.message
+    });
+  } else {
+    next();
+  }
+});
 
 // development error handler
 // will print stacktrace
