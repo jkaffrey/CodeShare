@@ -64,6 +64,13 @@ input::-webkit-input-placeholder {
   text-align: center;
 }
 
-input:invalid {
-  border: 1px solid red;
+/*input:invalid {
+
+  background-color: red;
+  opacity: 0.35;
+}*/
+
+small[id*=error] {
+
+  color: red;
 }
