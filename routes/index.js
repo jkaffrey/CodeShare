@@ -13,7 +13,7 @@ module.exports = function(router, io, routerRet) {
 
   router.get('/', function(req, res, next) {
 
-    console.log('Me', req.session.access_token);
+    console.log(req.session.userInfo);
     res.render('index');
   });
 
@@ -133,6 +133,9 @@ function checkJWT(req, res, next) {
           success: false,
           message: 'No token provided.'
         });
+      } else {
+
+        req.session.userInfo = decoded;
       }
     });
   } else {

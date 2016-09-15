@@ -32,7 +32,6 @@ module.exports = function(router) {
 
   router.post('/auth/login', function(req, res, next) {
 
-    console.log("reached");
     knex('users')
     .where({ email: req.body.email })
     .first('*')
