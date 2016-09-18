@@ -28,9 +28,11 @@ f_name.addEventListener('keyup', function(event) {
 f_name.addEventListener('focusout', function(event) {
   if (f_name.validity.patternMismatch) {
 
+    f_name.setCustomValidity('Please enter your first and last name.');
     document.getElementById('errorName').style.display = 'block';
   } else {
 
+    f_name.setCustomValidity('');
     document.getElementById('errorName').style.display = 'none';
   }
 });
@@ -49,9 +51,11 @@ email.addEventListener('keyup', function(event) {
 email.addEventListener('focusout', function(event) {
   if (email.validity.patternMismatch) {
 
+    email.setCustomValidity('Invalid e-mail format.');
     document.getElementById('errorEmail').style.display = 'block';
   } else {
 
+    email.setCustomValidity('');
     document.getElementById('errorEmail').style.display = 'none';
   }
 });
@@ -69,9 +73,11 @@ password.addEventListener('keyup', function(event) {
 password.addEventListener('focusout', function(event) {
   if (password.validity.patternMismatch) {
 
+    password.setCustomValidity('Passwords by at least 8 characters and must contain atleast one upper and lower case letter and a number.');
     document.getElementById('errorPassword').style.display = 'block';
   } else {
 
+    password.setCustomValidity('');
     document.getElementById('errorPassword').style.display = 'none';
   }
 });

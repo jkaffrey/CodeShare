@@ -8,7 +8,7 @@
           <div class="cols-sm-10">
             <div class="input-group">
               <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-              <input type="text" class="form-control" name="email" id="email" placeholder="Enter your Email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,3}$" />
+              <input type="text" class="form-control" name="email" id="email" placeholder="Enter your Email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,3}$" required=""/>
             </div>
             <small id="errorEmail" hidden="">Please enter a valid e-mail address.</small>
           </div>
@@ -19,7 +19,7 @@
           <div class="cols-sm-10">
             <div class="input-group">
               <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-              <input type="text" class="form-control" name="name" id="name"  placeholder="Enter your Name" pattern="^[A-Z][-'a-zA-Z]{1,}+,?\s[A-Z][-'a-zA-Z]{2,}$"/>
+              <input type="text" class="form-control" name="name" id="name"  placeholder="Enter your Name" pattern="^[A-Z][-'a-zA-Z]{1,}+,?\s[A-Z][-'a-zA-Z]{2,}$" required=""/>
             </div>
             <small id="errorName" hidden="">Please input your first and last name.</small>
           </div>
@@ -30,7 +30,7 @@
           <div class="cols-sm-10">
             <div class="input-group">
               <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-              <input type="password" class="form-control" name="password" id="password"  placeholder="Enter your Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"/>
+              <input type="password" class="form-control" name="password" id="password"  placeholder="Enter your Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required=""/>
             </div>
             <small id="errorPassword" hidden="">Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters.</small>
           </div>
@@ -41,7 +41,7 @@
           <div class="cols-sm-10">
             <div class="input-group">
               <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-              <input type="password" class="form-control" name="confirm" id="confirm"  placeholder="Confirm your Password" />
+              <input type="password" class="form-control" name="confirm" id="confirm"  placeholder="Confirm your Password" required=""/>
             </div>
             <small id="errorConfirm" hidden="">Your passwords do not match.</small>
           </div>
@@ -52,7 +52,7 @@
           <div class="cols-sm-10">
             <div class="input-group">
               <span class="input-group-addon"><i class="fa fa-question-circle fa-lg" aria-hidden="true"></i></span>
-              <select class="form-control" id="securityQuestion">
+              <select class="form-control" id="securityQuestion" required="">
                 <option disabled selected value></option>
                 <option>What was your first phone number?</option>
                 <option>What is your mother's maiden name?</option>
@@ -73,7 +73,7 @@
           <div class="cols-sm-10">
             <div class="input-group">
               <span class="input-group-addon"><i class="fa fa-circle-o-notch fa-lg" aria-hidden="true"></i></span>
-              <input type="password" class="form-control" name="securityAnswer" id="securityAnswer"  placeholder="Answer your security question"/>
+              <input type="password" class="form-control" name="securityAnswer" id="securityAnswer"  placeholder="Answer your security question" required=""/>
             </div>
           </div>
         </div>
