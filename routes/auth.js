@@ -16,6 +16,7 @@ module.exports = function(router) {
 
   router.post('/auth/signup', function(req, res) {
 
+    console.log('Da Body', req.body);
     knex('users')
     .insert(
       {
@@ -24,10 +25,14 @@ module.exports = function(router) {
         firstname: req.body.name.split(' ')[0],
         lastname: req.body.name.split(' ')[1],
         profilePicture: req.body.profileUrl,
-        securityQuestion: req.body.securityQuestion,
+        securtyQuestion: req.body.securityQuestions,
         securityAnswer: req.body.securityAnswer
       }
-    );
+    ).then(function(data) {
+      // console.log(data);
+    });
+
+    res.redirect('../');
   });
 
   router.post('/auth/login', function(req, res, next) {
