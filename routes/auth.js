@@ -35,6 +35,13 @@ module.exports = function(router) {
     });
   });
 
+  router.post('/auth/logout', function(req, res, next) {
+
+    console.log('Logging out');
+    req.session = null;
+    res.redirect('../../');
+  });
+
   router.post('/auth/login', function(req, res, next) {
 
     knex('users')
@@ -52,14 +59,15 @@ module.exports = function(router) {
 
           var token = jwt.sign(data, process.env.SECRET);
           req.session.access_token = token;
-          console.log(token);
+          // console.log(token);
 
-          // res.redirect('/code');
-          res.status(200).json({
-            status: 'success',
-            token: req.session.access_token,
-            user: data
-          });
+          req.session.userInfo = data;
+          res.redirect('../../');
+          // res.status(200).json({
+          //   status: 'success',
+          //   token: req.session.access_token,
+          //   user: data
+          // });
         } else {
 
           res.json({ error: errors.invalidPassword });

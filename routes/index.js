@@ -70,7 +70,6 @@ module.exports = function(router, io, routerRet) {
       if (!data[0].isPublic) {
 
         /* If repo is not public, check if user is allowed access */
-        console.log('Not public');
         knex('repo_perms')
         .where(
           {
@@ -79,11 +78,11 @@ module.exports = function(router, io, routerRet) {
           }
         ).then(function(data) {
 
-          //res.json({ allowedAccess: data.length >= 1 ? true : false });
           if (data.length < 1) {
 
             /* if this is reached, current user is not allowed access, so redirect */
-            res.json({ error: eHelper.unauthorizedAccess });
+            // res.json({ error: eHelper.unauthorizedAccess });
+            res.render('error', { error: eHelper.unauthorizedAccess });
           } else {
 
             /* if this section is reached, the user is allowed access */
