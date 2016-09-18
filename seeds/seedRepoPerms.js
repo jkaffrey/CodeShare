@@ -2,10 +2,10 @@
 
 exports.seed = function(knex, Promise) {
 
-  return knex('repoPerms').del()
+  return knex('repo_perms').del()
     .then(function () {
       return Promise.all([
-        knex('repoPerms').insert(
+        knex('repo_perms').insert(
           {
             repoName: 'simpleTest',
             user_id: 1,
@@ -13,7 +13,7 @@ exports.seed = function(knex, Promise) {
           }
         ),
 
-        knex('repoPerms').insert(
+        knex('repo_perms').insert(
           {
             repoName: 'simpleTest',
             user_id: 2,
@@ -21,7 +21,7 @@ exports.seed = function(knex, Promise) {
           }
         ),
 
-        knex('repoPerms').insert(
+        knex('repo_perms').insert(
           {
             repoName: 'simpleTest',
             user_id: 3,

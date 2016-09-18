@@ -30,10 +30,9 @@ module.exports = function(router) {
         securityAnswer: req.body.securityAnswer
       }
     ).then(function(data) {
-      // console.log(data);
-    });
 
-    res.redirect('../');
+      res.redirect('../');
+    });
   });
 
   router.post('/auth/login', function(req, res, next) {

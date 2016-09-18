@@ -2,16 +2,17 @@
 
 exports.up = function(knex, Promise) {
 
-  return knex.schema.createTable('repoInfo', function(table) {
+  return knex.schema.createTable('repo_info', function(table) {
 
     table.increments('id');
     table.string('repoName');
     table.text('repoDescription');
-    table.boolean('isPublic');
+    table.integer('owner_id');
+    table.boolean('isPublic').defaultTo(false);
   });
 };
 
 exports.down = function(knex, Promise) {
 
-  return knex.schema.dropTableIfExists('repoInfo');
+  return knex.schema.dropTableIfExists('repo_info');
 };

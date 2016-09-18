@@ -2,7 +2,7 @@
 
 exports.up = function(knex, Promise) {
 
-  return knex.schema.createTable('repoPerms', function(table) {
+  return knex.schema.createTable('repo_perms', function(table) {
 
     table.increments('id');
     table.string('repoName');
@@ -13,5 +13,5 @@ exports.up = function(knex, Promise) {
 
 exports.down = function(knex, Promise) {
 
-  return knex.schema.dropTableIfExists('repoPerms');
+  return knex.schema.dropTableIfExists('repo_perms');
 };

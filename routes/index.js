@@ -1,13 +1,17 @@
 'use strict';
 
-var Prism      = require('prismjs');
-var fileStream = require('file-system');
-var fs         = require('fs');
-var path       = require('path');
-var url        = require('url');
-var moment     = require('moment');
-var jwt        = require('jsonwebtoken');
-var dHelper    = require('../helpers/directoryHelper');
+const Prism      = require('prismjs');
+const fileStream = require('file-system');
+const fs         = require('fs');
+const path       = require('path');
+const url        = require('url');
+const moment     = require('moment');
+const jwt        = require('jsonwebtoken');
+const knex       = require('../db/knex');
+const dHelper    = require('../helpers/directoryHelper');
+const pHelper    = require('../helpers/permissionHelper');
+const eHelper    = require('../helpers/errorStandards');
+
 
 module.exports = function(router, io, routerRet) {
 
@@ -23,32 +27,113 @@ module.exports = function(router, io, routerRet) {
 
     checkJWT(req, res, next);
     var uniqueId = Math.random().toString(36).substring(7);
-    res.redirect('/code/' + uniqueId);
+
+    /* Add repo to repoInfo
+    *  Initalize with empty description
+    */
+
+    knex('repo_info')
+    .insert({
+      repoName: uniqueId,
+      repoDescription: '',
+      owner_id: req.session.userInfo.id,
+      isPublic: true
+    }).then(function (data) {
+
+      /* Add user to repo_perms table as owner */
+
+      knex('repo_perms')
+      .insert({
+        repoName: uniqueId,
+        user_id: req.session.userInfo.id,
+        permission: pHelper.owner
+      }).then(function(data) {
+
+        /* Finally redirect the user to a working repo */
+        res.redirect('/code/' + uniqueId);
+      });
+    });
   });
 
   router.get('/code/:id', function(req, res, next) {
 
     checkJWT(req, res, next);
-    /* This will create a directory within the file system to store all the files */
-    if (!fs.existsSync(path.resolve('./') + '/workDirectories')) {
 
-      fs.mkdirSync(path.resolve('./') + '/workDirectories');
-    }
+    /* Check if the user is allowed to access this repo */
 
-    if (!fs.existsSync(path.resolve('./') + '/workDirectories/' + req.params.id)) {
-      fs.mkdirSync(path.resolve('./') + '/workDirectories/' + req.params.id);
-    }
+    /* First check if repo is public */
+    knex('repo_info')
+    .where({ repoName: req.params.id })
+    .then(function (data) {
 
-    // var dirTree = (path.resolve('./') + '/workDirectories/' + req.params.id);
-    //
-    // dHelper.getDirObj(dirTree, function(err, res){
-    //   if(err)
-    //     console.error(err);
-    //
-    //   console.log(JSON.stringify(res));
-    // });
+      console.log(data[0].isPublic);
+      if (!data[0].isPublic) {
 
-    res.render('codeView', { directory: req.params.id });
+        /* If repo is not public, check if user is allowed access */
+        console.log('Not public');
+        knex('repo_perms')
+        .where(
+          {
+            repoName: req.params.id,
+            user_id: req.session.userInfo.id
+          }
+        ).then(function(data) {
+
+          //res.json({ allowedAccess: data.length >= 1 ? true : false });
+          if (data.length < 1) {
+
+            /* if this is reached, current user is not allowed access, so redirect */
+            res.json({ error: eHelper.unauthorizedAccess });
+          } else {
+
+            /* if this section is reached, the user is allowed access */
+            /* This will create a directory within the file system to store all the files */
+            if (!fs.existsSync(path.resolve('./') + '/workDirectories')) {
+
+              fs.mkdirSync(path.resolve('./') + '/workDirectories');
+            }
+
+            if (!fs.existsSync(path.resolve('./') + '/workDirectories/' + req.params.id)) {
+              fs.mkdirSync(path.resolve('./') + '/workDirectories/' + req.params.id);
+            }
+
+            // var dirTree = (path.resolve('./') + '/workDirectories/' + req.params.id);
+            //
+            // dHelper.getDirObj(dirTree, function(err, res){
+            //   if(err)
+            //     console.error(err);
+            //
+            //   console.log(JSON.stringify(res));
+            // });
+
+            res.render('codeView', { directory: req.params.id });
+          }
+        });
+      } else {
+
+        /* if this section is reached, the user is allowed access */
+        /* This will create a directory within the file system to store all the files */
+        if (!fs.existsSync(path.resolve('./') + '/workDirectories')) {
+
+          fs.mkdirSync(path.resolve('./') + '/workDirectories');
+        }
+
+        if (!fs.existsSync(path.resolve('./') + '/workDirectories/' + req.params.id)) {
+          fs.mkdirSync(path.resolve('./') + '/workDirectories/' + req.params.id);
+        }
+
+        // var dirTree = (path.resolve('./') + '/workDirectories/' + req.params.id);
+        //
+        // dHelper.getDirObj(dirTree, function(err, res){
+        //   if(err)
+        //     console.error(err);
+        //
+        //   console.log(JSON.stringify(res));
+        // });
+
+        res.render('codeView', { directory: req.params.id });
+      }
+    });
   });
 
   //TODO: Socket.io code goes here
