@@ -41,7 +41,6 @@ f_name.addEventListener('focusout', function(event) {
 
 email.addEventListener('keyup', function(event) {
 
-  console.log(email.validity);
   if (!email.validity.patternMismatch) {
 
     document.getElementById('errorEmail').style.display = 'none';
@@ -49,6 +48,20 @@ email.addEventListener('keyup', function(event) {
 });
 
 email.addEventListener('focusout', function(event) {
+
+  $.get('http://localhost:3000/api/v1/userExists/' + email.value, function(data) {
+
+    if (data.isUser) {
+
+      email.setCustomValidity('A user with this e-mail already exists. Have you forgotten your password?');
+      document.getElementById('errorEmailExists').style.display = 'block';
+    } else {
+
+      email.setCustomValidity('');
+      document.getElementById('errorEmailExists').style.display = 'none';
+    }
+  });
+
   if (email.validity.patternMismatch) {
 
     email.setCustomValidity('Invalid e-mail format.');

@@ -18,6 +18,7 @@ module.exports = function(router) {
 
     console.log('Da Body', req.body);
     knex('users')
+    .returning('*')
     .insert(
       {
         email: req.body.email,
