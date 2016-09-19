@@ -12,7 +12,19 @@ var router = express.Router();
 var io = require('socket.io').listen(app.listen(3000));
 var expressJWT = require('express-jwt');
 var cookieSession = require('cookie-session');
+var multer = require('multer');
 const errors = require('./helpers/errorStandards');
+
+var storage = multer.diskStorage({
+  destination: function(req, file, callback) {
+    callback(null, './public/profilePics');
+  },
+  filename: function(req, file, callback) {
+    callback(null, file.fieldname + '-' + Date.now() + Math.random().toString(36).substring(3) + '.' + (file.mimetype.split('/')[1]));
+  }
+});
+
+var upload = multer({ storage: storage }).single('userPhoto');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -21,7 +33,8 @@ app.set('view engine', 'hbs');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(upload);
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -37,8 +50,14 @@ app.use(function(req,res,next){
   next();
 });
 
+app.all('/*', function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Content-Type,accept,access_token,X-Requested-With');
+  next();
+});
+
 require('./routes/index')(app, io, router);
-require('./routes/auth')(app);
+require('./routes/auth')(app, multer, upload);
 require('./routes/users')(app, router);
 
 

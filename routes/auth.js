@@ -5,9 +5,10 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const knex = require('../db/knex');
 const jwt = require('jsonwebtoken');
+// const multer = require('multer');
 const errors = require('../helpers/errorStandards');
 
-module.exports = function(router) {
+module.exports = function(router, multer, upload) {
 
   router.get('/register', function(req, res, next) {
 
@@ -16,7 +17,7 @@ module.exports = function(router) {
 
   router.post('/auth/signup', function(req, res) {
 
-    console.log('Da Body', req.body);
+    console.log(req.file);
     knex('users')
     .returning('*')
     .insert(
@@ -25,7 +26,7 @@ module.exports = function(router) {
         password: req.body.password,
         firstname: req.body.name.split(' ')[0],
         lastname: req.body.name.split(' ')[1],
-        profilePicture: req.body.profileUrl,
+        profilePicture: req.file.path.replace('public', '') || '',
         securtyQuestion: req.body.securityQuestions,
         securityAnswer: req.body.securityAnswer
       }

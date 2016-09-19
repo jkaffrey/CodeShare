@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row main">
     <div class="main-login main-center">
-      <form class="form-horizontal" method="post" action="./auth/signup">
+      <form class="form-horizontal" method="post" enctype="multipart/form-data" action="/auth/signup">
 
         <div class="form-group">
           <label for="email" class="cols-sm-2 control-label">Your Email</label>
@@ -23,6 +23,16 @@
               <input type="text" class="form-control" name="name" id="name"  placeholder="Enter your Name" pattern="^[A-Z][-'a-zA-Z]{1,}+,?\s[A-Z][-'a-zA-Z]{2,}$" required=""/>
             </div>
             <small id="errorName" hidden="">Please input your first and last name.</small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="name" class="cols-sm-2 control-label">Profile Picture</label>
+          <div class="cols-sm-10">
+            <div class="input-group">
+              <!-- <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span> -->
+              <input type="file" name="userPhoto" />
+            </div>
           </div>
         </div>
 

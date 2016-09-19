@@ -12,8 +12,6 @@ module.exports = function(router, routerRet) {
 
   router.get(subUrl + '/userExists/:email', function(req, res, next) {
 
-    console.log('Here');
-
     knex
     .select('email')
     .from('users')
