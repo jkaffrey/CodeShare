@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="/stylesheets/loginStyle.css">
   <link rel="stylesheet" href="/stylesheets/nabbar.css">
   <link rel="stylesheet" href="/stylesheets/tablestyle.css">
+  <link rel="stylesheet" href="/stylesheets/personalProfile.css">
   <link rel="stylesheet" href="/stylesheets/themes/default/style.css">
 
 
@@ -20,7 +21,6 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
   <script src="/javascripts/jstree.min.js"></script>
-  <script src="/javascripts/handlebarsHelper.js"></script>
 
 
 </head>
@@ -65,7 +65,7 @@
                       <p class="text-left"><strong>{{session.userInfo.firstname}}&nbsp;{{session.userInfo.lastname}}</strong></p>
                       <p class="text-left small">{{session.userInfo.email}}</p>
                       <p class="text-left">
-                        <a href="#" class="btn btn-primary btn-block btn-sm">Account Info</a>
+                        <a href="/profile" class="btn btn-primary btn-block btn-sm">Account Info</a>
                       </p>
                     </div>
                   </div>
