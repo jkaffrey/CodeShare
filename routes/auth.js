@@ -71,11 +71,11 @@ module.exports = function(router, multer, upload) {
           // });
         } else {
 
-          res.json({ error: errors.invalidPassword });
+          res.render('error', { error: errors.invalidPassword });
         }
       } else {
 
-        res.json({ error: errors.invalidEmail });
+        res.render('error', { error: errors.invalidEmail });
       }
     });
   });

@@ -52,5 +52,17 @@ module.exports = function(router, routerRet) {
     });
   });
 
+  router.get(subUrl + '/getUserByEmail/:id', function(req, res, next) {
+
+    knex('users')
+    .select('id', 'firstname', 'lastname', 'email')
+    .where('email', 'like', '%' + req.params.id + '%')
+    .timeout(500)
+    .then(function(data) {
+
+      res.json(data);
+    });
+  });
+
   return routerRet;
 };

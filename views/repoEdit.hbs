@@ -1,0 +1,91 @@
+<div class="container">
+  <div class="row">
+  </div>
+  <div class="row">
+    <div class="panel with-nav-tabs panel-default">
+      <div class="panel-heading">
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="#tab1default" data-toggle="tab">Repository Info.</a></li>
+          <li><a href="#tab2default" data-toggle="tab">Add User</a></li>
+        </ul>
+      </div>
+      <div class="panel-body">
+        <div class="tab-content">
+          <div class="tab-pane fade in active" id="tab1default">
+            <!-- Edit Repo Info -->
+            <div class="container">
+              <div class="row main">
+                <div class="main-login main-center">
+                  <form class="form-horizontal" method="post" action="/auth/editRepo">
+
+                    <div class="form-group">
+                      <label for="repoName" class="cols-sm-2 control-label">Repo Name</label>
+                      <div class="cols-sm-10">
+                        <div class="input-group">
+                          <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                          <input type="text" class="form-control" name="repoName" id="repoName" value="{{repoInfo.repoName}}" pattern="[a-zA-Z0-9._%+-]{5,}$" required=""/>
+                        </div>
+                        <small id="errorRepoName" hidden="">Repository names must be 5 characters or more and only contain letters and numbers.</small>
+                        <small id="errorRepoNameExists" hidden="">A repository by this name already exists.</small>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="repoOwner" class="cols-sm-2 control-label">Repository Owner</label>
+                      <div class="cols-sm-10">
+                        <div class="input-group">
+                          <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                          <input type="text" class="form-control" name="repoOwner" id="repoOwner" value="{{owner}}" pattern="[a-zA-Z0-9._%+-]{5,}$" disabled=""/>
+                        </div>
+                        <!-- <small id="errorRepoName" hidden="">Repository names must be 5 characters or more and only contain letters and numbers.</small> -->
+                        <!-- <small id="errorRepoNameExists" hidden="">A repository by this name already exists.</small> -->
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="repoDescription" class="cols-sm-2 control-label">Repository Description</label>
+                      <div class="cols-sm-10">
+                        <div class="input-group">
+                          <textarea class="form-control" rows="5" cols="55" id="repoDescription" name="repoDescription">{{repoInfo.repoDescription}}</textarea>
+                        </div>
+                      </div>
+                    </div>
+
+                    <input type="submit" class="btn btn-primary btn-lg btn-block login-button" value="Update">
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="tab2default">
+
+            <!-- Add Collaborator -->
+            <div class="container">
+              <div class="row main">
+                <div class="main-login main-center">
+                  <form class="form-horizontal" method="post" action="/auth/editRepo">
+                    <div class="form-group">
+                      <label for="collabName" class="cols-sm-2 control-label">Add Collaborator</label>
+                      <div class="cols-sm-10">
+                        <div class="input-group">
+                          <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                          <input type="text" class="form-control" name="collabName" id="collabName" list="collabSuggestions" placeholder="Start typing an e-mail to find a user."/>
+                          <datalist id="collabSuggestions">
+                          </datalist>
+                        </div>
+                      </div>
+                    </div>
+
+                    <input type="submit" class="btn btn-primary btn-lg btn-block login-button" value="Add Collaborator">
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/javascripts/editRepository.js"></script>

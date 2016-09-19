@@ -52,6 +52,23 @@ module.exports = function(router, io, routerRet) {
     });
   });
 
+  router.get('/editrepo/:id', function(req, res, next) {
+
+    knex('repo_info')
+    .where({ repoName: req.params.id})
+    .then(function(data) {
+
+      knex('users')
+      .select('firstname', 'lastname')
+      .where({id: data[0].owner_id})
+      .then(function(ownerData) {
+
+        console.log(data[0]);
+        res.render('repoEdit', { repoInfo: data[0], owner: ownerData[0].firstname + ' ' + ownerData[0].lastname });
+      });
+    });
+  });
+
   router.get('/code', function(req, res, next) {
 
     checkJWT(req, res, next);
