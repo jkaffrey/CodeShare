@@ -26,7 +26,11 @@
                     </div>
                     <div class="col-xs-12 col-sm-4 text-center">
                       <figure>
+                        {{#if session.userInfo.profilePicture}}
+                        <img src="{{session.userInfo.profilePicture}}" alt="" class="img-circle img-responsive">
+                        {{else}}
                         <img src="/images/default_profile.png" alt="" class="img-circle img-responsive">
+                        {{/if}}
                         <figcaption class="ratings">
 
                         </figcaption>
