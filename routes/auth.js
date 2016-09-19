@@ -26,7 +26,7 @@ module.exports = function(router, multer, upload) {
         password: req.body.password,
         firstname: req.body.name.split(' ')[0],
         lastname: req.body.name.split(' ')[1],
-        profilePicture: req.file.path.replace('public', '') || '',
+        profilePicture: req.file ? req.file.path.replace('public', '') : '',
         securtyQuestion: req.body.securityQuestions,
         securityAnswer: req.body.securityAnswer
       }

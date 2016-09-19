@@ -20,7 +20,9 @@ var storage = multer.diskStorage({
     callback(null, './public/profilePics');
   },
   filename: function(req, file, callback) {
-    callback(null, file.fieldname + '-' + Date.now() + Math.random().toString(36).substring(3) + '.' + (file.mimetype.split('/')[1]));
+    if (file) {
+      callback(null, file.fieldname + '-' + Date.now() + Math.random().toString(36).substring(3) + '.' + (file.mimetype.split('/')[1]));
+    }
   }
 });
 
