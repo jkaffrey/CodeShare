@@ -17,7 +17,7 @@ module.exports = function(router, multer, upload) {
 
   router.post('/auth/signup', function(req, res) {
 
-    console.log(req.file);
+    // console.log(req.file);
     knex('users')
     .returning('*')
     .insert(
@@ -38,7 +38,7 @@ module.exports = function(router, multer, upload) {
 
   router.post('/auth/logout', function(req, res, next) {
 
-    console.log('Logging out');
+    // console.log('Logging out');
     req.session = null;
     res.redirect('../../');
   });

@@ -17,11 +17,33 @@ module.exports = function(router, io, routerRet) {
 
   router.get('/', function(req, res, next) {
 
-    console.log(req.session.userInfo);
+    // console.log(req.session.userInfo);
     res.render('index');
   });
 
-  // router.use(function(req, res, next) { checkJWT(req, res, next); });
+  router.get('/profile', function(req, res, next) {
+
+    knex('repo_perms')
+    .select('*')
+    .where({user_id: req.session.userInfo.id})
+    .then(function(data) {
+
+      // for (var i = 0; i < data.length; i++) {
+      //
+      //   data[i].permission = pHelper.localizePermissions(data[i].permission);
+      //   // knex('repo_info')
+      //   // .select('repoDescription')
+      //   // .where({ repoName: data[i].repoName})
+      //   // .then(function(dataO) {
+      //   //
+      //   //   data[i].description = dataO[0].repoDescription;
+      //   // });
+      // }
+
+      console.log(data);
+      res.render('profile', { userInfo: req.session.userInfo, userRepos: data });
+    });
+  });
 
   router.get('/code', function(req, res, next) {
 
@@ -66,7 +88,7 @@ module.exports = function(router, io, routerRet) {
     .where({ repoName: req.params.id })
     .then(function (data) {
 
-      console.log(data[0].isPublic);
+      // console.log(data[0].isPublic);
       if (!data[0].isPublic) {
 
         /* If repo is not public, check if user is allowed access */

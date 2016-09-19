@@ -2,6 +2,7 @@
 
 require('dotenv').config();
 var express = require('express');
+var exphbs = require('express-handlebars');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -28,9 +29,10 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage }).single('userPhoto');
 
-// view engine setup
+// view handlebars setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
+app.set('view engine', '.hbs');
+
 
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));

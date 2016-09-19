@@ -1,0 +1,21 @@
+#repoTable {
+
+  border-radius: 10px;
+  background-color: #FBFBFB;
+}
+
+#repoTable td {
+
+  background-color: white;
+}
+
+#repoTable thead th {
+	padding: 20px;
+	vertical-align: middle;
+}
+
+#repoTable tbody tr td {
+	padding: 20px;
+	vertical-align: middle;
+	border-top-color: #eee;
+}
