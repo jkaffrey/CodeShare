@@ -78,72 +78,71 @@
       <h4>Your Repositories</h4>
       <div class="row">
         <div class="col-md-6">
-          <form class="form-horizontal" method="get" action="javascript:createUrl()">
-            <div class="form-group">
-              <label for="repoName" class="cols-sm-2 control-label">Repo Name</label>
-              <div class="cols-sm-10">
-                <div class="input-group">
-                  <span class="input-group-addon"><i class="fa fa-bookmark" aria-hidden="true"></i></span>
-                  <input type="text" class="form-control" name="repoName" id="repoName" required=""/>
-                </div>
-                <button class="btn btn-primary" type="submit">Create and Go</button>
+          <div class="form-group">
+            <label for="repoName" class="cols-sm-2 control-label">Repo Name</label>
+            <div class="cols-sm-10">
+              <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-bookmark" aria-hidden="true"></i></span>
+                <input type="text" class="form-control" name="repoName" id="repoName" required=""/>
               </div>
+              <a href="javascript:createUrl()" class="btn btn-primary" type="submit">Create and Go</a>
             </div>
           </div>
         </div>
-        <div class="table-responsive">
-          <table id="repoTable" class="table table-bordred">
-            <thead>
-              <th style="width: 55px;">Repo Name</th>
-              <th>Description</th>
-              <th style="width: 50px;">Role</th>
-
-              <th style="width: 20px;">View</th>
-              <th style="width: 20px;">Edit</th>
-              <th style="width: 20px;">Delete</th>
-            </thead>
-            <tbody>
-              {{#each userRepos}}
-              <tr id="repo{{this.id}}">
-                <td>{{this.repoName}}</td>
-                {{#if this.description}}
-                <td>{{this.description}}</td>
-                {{else}}
-                <td>There is no description for this repository. Contact your project manager to add one.</td>
-                {{/if}}
-                <td>{{this.permission}}</td>
-                <td><p><a href="/code/{{this.repoName}}"><button class="btn btn-primary btn-xs"><i class="fa fa-eye" aria-hidden="true"></i></button></a></p></td>
-                {{#if this.canEdit}}
-                <td><p><a href="/editrepo/{{this.repoName}}"><button class="btn btn-primary btn-xs"><i class="fa fa-pencil" aria-hidden="true"></i></button></a></p></td>
-                {{else}}
-                <td><p><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" disabled><i class="fa fa-pencil" aria-hidden="true"></i></button></p></td>
-                {{/if}}
-                {{#if this.canDelete}}
-                <td><p><form action="/api/v1/deleterepo/{{this.repoName}}" method="post"><button type="submit" class="btn btn-danger btn-xs"><i class="fa fa-trash-o" aria-hidden="true"></i></button></form></p></td>
-                {{else}}
-                <td><p><button class="btn btn-danger btn-xs" disabled><i class="fa fa-trash-o" aria-hidden="true"></i></button></p></td>
-                {{/if}}
-              </tr>
-              {{/each}}
-            </tbody>
-          </table>
-
-          <!-- <div class="clearfix"></div>
-          <ul class="pagination pull-right">
-          <li class="disabled"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
-          <li class="active"><a href="#">1</a></li>
-          <li><a href="#">2</a></li>
-          <li><a href="#">3</a></li>
-          <li><a href="#">4</a></li>
-          <li><a href="#">5</a></li>
-          <li><a href="#"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
-        </ul> -->
-
       </div>
+      <div class="table-responsive">
+        <table id="repoTable" class="table table-bordred">
+          <thead>
+            <th style="width: 55px;">Repo Name</th>
+            <th>Description</th>
+            <th style="width: 50px;">Role</th>
+
+            <th style="width: 20px;">View</th>
+            <th style="width: 20px;">Edit</th>
+            <th style="width: 20px;">Delete</th>
+          </thead>
+          <tbody>
+            {{#each userRepos}}
+            <tr id="repo{{this.id}}">
+              <td>{{this.repoName}}</td>
+              {{#if this.repoDescription}}
+              <td>{{this.repoDescription}}</td>
+              {{else}}
+              <td>There is no description for this repository. Contact your project manager to add one.</td>
+              {{/if}}
+              <td>{{this.permission}}</td>
+              <td><p><a href="/code/{{this.repoName}}"><button class="btn btn-primary btn-xs"><i class="fa fa-eye" aria-hidden="true"></i></button></a></p></td>
+              {{#if this.canEdit}}
+              <td><p><a href="/editrepo/{{this.repoName}}"><button class="btn btn-primary btn-xs"><i class="fa fa-pencil" aria-hidden="true"></i></button></a></p></td>
+              {{else}}
+              <td><p><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" disabled><i class="fa fa-pencil" aria-hidden="true"></i></button></p></td>
+              {{/if}}
+              {{#if this.canDelete}}
+              <td><p><form action="/api/v1/deleterepo/{{this.repoName}}" method="post"><button type="submit" class="btn btn-danger btn-xs"><i class="fa fa-trash-o" aria-hidden="true"></i></button></form></p></td>
+              {{else}}
+              <td><p><button class="btn btn-danger btn-xs" disabled><i class="fa fa-trash-o" aria-hidden="true"></i></button></p></td>
+              {{/if}}
+            </tr>
+            {{/each}}
+          </tbody>
+        </table>
+
+        <!-- <div class="clearfix"></div>
+        <ul class="pagination pull-right">
+        <li class="disabled"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+        <li class="active"><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">5</a></li>
+        <li><a href="#"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+      </ul> -->
 
     </div>
+
   </div>
-  <div class="tab-pane fade" id="tab3default">Default 3</div>
+</div>
+<div class="tab-pane fade" id="tab3default">Default 3</div>
 </div>
 </div>
 </div>

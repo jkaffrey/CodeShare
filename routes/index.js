@@ -24,6 +24,7 @@ module.exports = function(router, io, routerRet) {
   router.get('/profile', function(req, res, next) {
 
     knex('repo_perms')
+    .join('repo_info', 'repo_perms.repoName', '=', 'repo_info.repoName')
     .select('*')
     .where({user_id: req.session.userInfo.id})
     .then(function(data) {
@@ -34,15 +35,15 @@ module.exports = function(router, io, routerRet) {
         data[i].canEdit = data[i].permission === 'Admin' || data[i].permission === 'Owner' ? true : false;
         data[i].canDelete = data[i].permission === 'Owner' ? true : false;
         console.log(data[i]);
-        knex('repo_info')
-        .select('repoDescription')
-        .where({ repoName: data[i].repoName})
-        .then(function(dataO) {
-
-          if (data[i]) {
-            data[i].description = dataO[0].repoDescription;
-          }
-        });
+        // knex('repo_info')
+        // .select('repoDescription')
+        // .where({ repoName: data[i].repoName})
+        // .then(function(dataO) {
+        //
+        //   if (data[i]) {
+        //     data[i].description = dataO[0].repoDescription;
+        //   }
+        // });
       }
 
       res.render('profile', {
@@ -60,7 +61,7 @@ module.exports = function(router, io, routerRet) {
 
       knex('users')
       .select('firstname', 'lastname')
-      .where({id: data[0].owner_id})
+      .where({ id: data[0].owner_id })
       .then(function(ownerData) {
 
         // console.log(data[0]);
@@ -118,7 +119,7 @@ module.exports = function(router, io, routerRet) {
         knex('repo_info')
         .insert({
           repoName: req.params.id,
-          repoDescription: '',
+          repoDescription: null,
           owner_id: req.session.userInfo.id,
           isPublic: true
         }).then(function (data) {
