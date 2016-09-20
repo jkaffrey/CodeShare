@@ -4,9 +4,22 @@ const subUrl = '/api/v1';
 const knex = require('../db/knex');
 const permHelper = require('../helpers/permissionHelper');
 const errorHelper = require('../helpers/errorStandards');
+const fs = require('fs');
+const path = require('path');
 
 
 module.exports = function(router, routerRet) {
+
+  // router.get(subUrl + '/getFile/:directory/:filename', function(req, res, next) {
+  router.get(/\/api\/v1\/getFile((\/\w+)*\.\w+)$/, function(req, res, next) {
+
+    // res.json(req.params);
+    fs.readFile(path.resolve('./') + '/workDirectories' + req.params[0], 'utf8', (err, data) => {
+
+      if (err) res.json(err);
+      res.json(data);
+    });
+  });
 
   router.get(subUrl + '/loggedInfo', function(req, res, next) {
 

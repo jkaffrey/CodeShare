@@ -27,7 +27,7 @@ $(function() {
 
   $('#fileTree').on("changed.jstree", function (e, data) {
 
-    console.log(data.selected);
+    // console.log(data.selected);
     // console.log(id + '/' + $('#fileTree').jstree(true).get_path(data.selected, '/'));
   });
 
@@ -80,6 +80,21 @@ $(function() {
     $('#codeArea').html(data.key);
   });
 });
+
+function getFileFromServer(url, doneCallback) {
+  var xhr;
+
+  xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = handleStateChange;
+  xhr.open("GET", url, true);
+  xhr.send();
+
+  function handleStateChange() {
+    if (xhr.readyState === 4) {
+      doneCallback(xhr.status == 200 ? xhr.responseText : null);
+    }
+  }
+}
 
 function reduceEvents() {
 

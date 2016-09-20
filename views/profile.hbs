@@ -98,6 +98,7 @@
           <thead>
             <th style="width: 55px;">Repo Name</th>
             <th>Description</th>
+            <th style="width: 20px;">Public</th>
             <th style="width: 50px;">Role</th>
 
             <th style="width: 20px;">View</th>
@@ -112,6 +113,11 @@
               <td>{{this.repoDescription}}</td>
               {{else}}
               <td>There is no description for this repository. Contact your project manager to add one.</td>
+              {{/if}}
+              {{#if this.isPublic}}
+              <td>Y</td>
+              {{else}}
+              <td>N</td>
               {{/if}}
               <td>{{this.permission}}</td>
               <td><p><a href="/code/{{this.repoName}}"><button class="btn btn-primary btn-xs"><i class="fa fa-eye" aria-hidden="true"></i></button></a></p></td>
