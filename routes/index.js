@@ -55,7 +55,7 @@ module.exports = function(router, io, routerRet) {
   router.get('/editrepo/:id', function(req, res, next) {
 
     knex('repo_info')
-    .where({ repoName: req.params.id})
+    .where({ repoName: req.params.id })
     .then(function(data) {
 
       knex('users')

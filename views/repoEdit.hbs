@@ -16,7 +16,7 @@
             <div class="container">
               <div class="row main">
                 <div class="main-login main-center">
-                  <form class="form-horizontal" method="post" action="/auth/editRepo">
+                  <form class="form-horizontal" method="post" action="/api/v1/updaterepo/{{repoInfo.repoName}}">
 
                     <div class="form-group">
                       <label for="repoName" class="cols-sm-2 control-label">Repo Name</label>
@@ -39,6 +39,25 @@
                         </div>
                         <!-- <small id="errorRepoName" hidden="">Repository names must be 5 characters or more and only contain letters and numbers.</small> -->
                         <!-- <small id="errorRepoNameExists" hidden="">A repository by this name already exists.</small> -->
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="repoPublic" class="cols-sm-2 control-label">Is Public?</label>
+                      <div class="cols-sm-10">
+                        <div class="input-group">
+                          <span class="input-group-addon"><i class="fa fa-universal-access" aria-hidden="true"></i></span>
+                          <!-- <input type="text" class="form-control" name="repoPublic" id="repoPublic" value="{{repoInfo.isPublic}}" pattern="[a-zA-Z0-9._%+-]{5,}$" disabled=""/> -->
+                          <select class="form-control" id="repoPublic" name="repoPublic">
+                            {{#if repoInfo.isPublic}}
+                            <option value="true" selected="">Yes</option>
+                            <option value="false">No</option>
+                            {{else}}
+                            <option value="true">Yes</option>
+                            <option value="false" selected="">No</option>
+                            {{/if}}
+                          </select>
+                        </div>
                       </div>
                     </div>
 
