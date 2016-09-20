@@ -1,6 +1,6 @@
 'use strict';
 
-const collaborator = document.getElementById('collabName');
+const collaborator = document.getElementById('collabEmail');
 
 collaborator.addEventListener('keyup', function(event) {
 
@@ -9,7 +9,7 @@ collaborator.addEventListener('keyup', function(event) {
     var options = '';
     for (var i = 0; i < data.length; i++) {
 
-      options += '<option value="' + data[i].email + '">' + data[i].email + '</option>';
+      options += '<option value="' + data[i].email + '">' + data[i].email + ' ' + data[i].firstname + ' ' + data[i].lastname + '</option>';
     }
 
     console.log(options);

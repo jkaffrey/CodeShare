@@ -2,6 +2,9 @@
 
 const subUrl = '/api/v1';
 const knex = require('../db/knex');
+const permHelper = require('../helpers/permissionHelper');
+const errorHelper = require('../helpers/errorStandards');
+
 
 module.exports = function(router, routerRet) {
 
@@ -62,6 +65,45 @@ module.exports = function(router, routerRet) {
 
       res.json(data);
     });
+  });
+
+  router.post(subUrl + '/addCollaborator/:id', function(req, res, next) {
+
+    console.log(req.session);
+    knex('repo_perms')
+    .where({
+      repoName: req.params.id,
+      user_id: req.session.userInfo.id
+    })
+    .then(function(data) {
+
+      if (data.length === 0 || data[0].permission > 1) {
+
+        /* Cannot modify permissions */
+        res.render('error', { error: errorHelper.invalidPermissions });
+      } else {
+
+        /* Can modify permissions */
+        knex('users')
+        .select('id')
+        .where({
+          email: req.body.collabEmail
+        })
+        .then(function(userId) {
+          // console.log('ID!!!!!!!', userId);
+          knex('repo_perms')
+          .insert({
+            repoName: req.params.id,
+            user_id: userId[0].id,
+            permission: permHelper.unlocalizePermissions(req.body.collabPerms)
+          }).then(function() {
+
+            res.redirect('/editrepo/' + req.params.id);
+          });
+        });
+      }
+    });
+    // console.log(req.body, permHelper.unlocalizePermissions(req.body.collabPerms));
   });
 
   return routerRet;

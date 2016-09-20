@@ -63,8 +63,32 @@ module.exports = function(router, io, routerRet) {
       .where({id: data[0].owner_id})
       .then(function(ownerData) {
 
-        console.log(data[0]);
-        res.render('repoEdit', { repoInfo: data[0], owner: ownerData[0].firstname + ' ' + ownerData[0].lastname });
+        // console.log(data[0]);
+        /* Get all users who can access this repo */
+
+        knex('repo_perms')
+        .join('users', 'repo_perms.user_id',  '=', 'users.id')
+        .select('users.id', 'repoName', 'firstname', 'lastname', 'permission')
+        .where({ repoName:  req.params.id })
+        .then(function(editors) {
+
+          for (var i = 0; i < editors.length; i++) {
+
+            editors[i].permission = pHelper.localizePermissions(editors[i].permission);
+          }
+
+          /* Get current users permissions */
+          knex('repo_perms')
+          .select('permission')
+          .where({
+            user_id: req.session.userInfo.id,
+            repoName: req.params.id
+          }).then(function(curPerms) {
+
+            // console.log('My Perms!!!!!!', curPerms[0].permission === 0);
+            res.render('repoEdit', { repoInfo: data[0], owner: ownerData[0].firstname + ' ' + ownerData[0].lastname, collaborators: editors, amIOwner: curPerms[0].permission === 0 });
+          });
+        });
       });
     });
   });

@@ -6,7 +6,7 @@
       <div class="panel-heading">
         <ul class="nav nav-tabs">
           <li class="active"><a href="#tab1default" data-toggle="tab">Repository Info.</a></li>
-          <li><a href="#tab2default" data-toggle="tab">Add User</a></li>
+          <li><a href="#tab2default" data-toggle="tab">Manager Users</a></li>
         </ul>
       </div>
       <div class="panel-body">
@@ -22,7 +22,7 @@
                       <label for="repoName" class="cols-sm-2 control-label">Repo Name</label>
                       <div class="cols-sm-10">
                         <div class="input-group">
-                          <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                          <span class="input-group-addon"><i class="fa fa-bookmark" aria-hidden="true"></i></span>
                           <input type="text" class="form-control" name="repoName" id="repoName" value="{{repoInfo.repoName}}" pattern="[a-zA-Z0-9._%+-]{5,}$" required=""/>
                         </div>
                         <small id="errorRepoName" hidden="">Repository names must be 5 characters or more and only contain letters and numbers.</small>
@@ -34,7 +34,7 @@
                       <label for="repoOwner" class="cols-sm-2 control-label">Repository Owner</label>
                       <div class="cols-sm-10">
                         <div class="input-group">
-                          <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                          <span class="input-group-addon"><i class="fa fa-universal-access" aria-hidden="true"></i></span>
                           <input type="text" class="form-control" name="repoOwner" id="repoOwner" value="{{owner}}" pattern="[a-zA-Z0-9._%+-]{5,}$" disabled=""/>
                         </div>
                         <!-- <small id="errorRepoName" hidden="">Repository names must be 5 characters or more and only contain letters and numbers.</small> -->
@@ -59,18 +59,72 @@
           </div>
           <div class="tab-pane fade" id="tab2default">
 
+            <!-- Show All Collaborators -->
+            <div class="col-md-12">
+              <h4>All Collaborators</h4>
+              <div class="table-responsive">
+                <table id="repoTable" class="table table-bordred">
+                  <thead>
+                    <th style="width: 55px;">Name</th>
+                    <th>Role</th>
+
+                    <th style="width: 20px;">Remove</th>
+                  </thead>
+                  <tbody>
+                    {{#if amIOwner}}
+                    {{#each collaborators}}
+                    <tr id="collab{{this.id}}">
+                      <td>{{this.firstname}}&nbsp;{{this.lastname}}</td>
+                      <td>{{this.permission}}</td>
+
+                      <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><i class="fa fa-trash-o" aria-hidden="true"></i></button></p></td>
+                      <!-- <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" disabled><i class="fa fa-trash-o" aria-hidden="true"></i></button></p></td> -->
+                    </tr>
+                    {{/each}}
+                    {{else}}
+                    {{#each collaborators}}
+                    <tr id="collab{{this.id}}">
+                      <td>{{this.firstname}}&nbsp;{{this.lastname}}</td>
+                      <td>{{this.permission}}</td>
+
+                      <!-- <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><i class="fa fa-trash-o" aria-hidden="true"></i></button></p></td> -->
+                      <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" disabled><i class="fa fa-trash-o" aria-hidden="true"></i></button></p></td>
+                    </tr>
+                    {{/each}}
+                    {{/if}}
+                  </tbody>
+                </table>
+            </div>
+          </div>
+
             <!-- Add Collaborator -->
             <div class="container">
-              <div class="row main">
-                <div class="main-login main-center">
-                  <form class="form-horizontal" method="post" action="/auth/editRepo">
+              <div class="row">
+                <div class="main-center">
+                  <form class="form-horizontal" method="post" action="/api/v1/addCollaborator/{{repoInfo.repoName}}">
                     <div class="form-group">
-                      <label for="collabName" class="cols-sm-2 control-label">Add Collaborator</label>
+                      <label for="collabName" class="cols-md-12 control-label">Add Collaborator</label>
+                      <div class="cols-md-12">
+                        <div class="input-group">
+                          <span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
+                          <input type="text" class="form-control" name="collabEmail" id="collabEmail" list="collabSuggestions" placeholder="Start typing an e-mail to find a user."/>
+                          <datalist id="collabSuggestions">
+                          </datalist>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="collabPerms" class="cols-sm-2 control-label">Permission Level</label>
                       <div class="cols-sm-10">
                         <div class="input-group">
-                          <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-                          <input type="text" class="form-control" name="collabName" id="collabName" list="collabSuggestions" placeholder="Start typing an e-mail to find a user."/>
-                          <datalist id="collabSuggestions">
+                          <span class="input-group-addon"><i class="fa fa-users" aria-hidden="true"></i></span>
+                          <input type="text" class="form-control" name="collabPerms" id="collabPerms" list="permOptions" placeholder="Select a permission level."/>
+                          <datalist id="permOptions">
+                            <option value="Owner">0</option>
+                            <option value="Admin">1</option>
+                            <option value="Collaborator">2</option>
+                            <option value="Viewer">3</option>
                           </datalist>
                         </div>
                       </div>

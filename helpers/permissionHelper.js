@@ -15,5 +15,15 @@ module.exports = {
       case 2: return 'Collaborator';
       case 3: return 'Viewer';
     }
+  },
+
+  unlocalizePermissions: function(intRep) {
+
+    switch(intRep) {
+      case 'Owner': return 0;
+      case 'Admin': return 1;
+      case 'Collaborator': return 2;
+      case 'Viewer': return 3;
+    }
   }
 };
