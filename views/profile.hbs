@@ -75,21 +75,24 @@
   <div class="tab-pane fade" id="tab2default">
     <!-- Personal Repositories -->
     <div class="col-md-12">
-      <h4>Your Repositories</h4>
+      <h4>Create Repository</h4>
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
-            <label for="repoName" class="cols-sm-2 control-label">Repo Name</label>
+            <!-- <label for="repoName" class="cols-sm-2 control-label">Repo Name</label> -->
             <div class="cols-sm-10">
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-bookmark" aria-hidden="true"></i></span>
                 <input type="text" class="form-control" name="repoName" id="repoName" required=""/>
               </div>
-              <a href="javascript:createUrl()" class="btn btn-primary" type="submit">Create and Go</a>
             </div>
           </div>
         </div>
+        <div class="col-md-3">
+          <a href="javascript:createUrl()" class="btn btn-primary" type="submit">Create and Go</a>
+        </div>
       </div>
+      <h4>Your Repositories</h4>
       <div class="table-responsive">
         <table id="repoTable" class="table table-bordred">
           <thead>
