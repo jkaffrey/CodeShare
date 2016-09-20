@@ -97,62 +97,96 @@ module.exports = function(router, io, routerRet) {
 
     checkJWT(req, res, next);
     var uniqueId = Math.random().toString(36).substring(7);
-
-    /* Add repo to repoInfo
-    *  Initalize with empty description
-    */
-
-    knex('repo_info')
-    .insert({
-      repoName: uniqueId,
-      repoDescription: '',
-      owner_id: req.session.userInfo.id,
-      isPublic: true
-    }).then(function (data) {
-
-      /* Add user to repo_perms table as owner */
-
-      knex('repo_perms')
-      .insert({
-        repoName: uniqueId,
-        user_id: req.session.userInfo.id,
-        permission: pHelper.owner
-      }).then(function(data) {
-
-        /* Finally redirect the user to a working repo */
-        res.redirect('/code/' + uniqueId);
-      });
-    });
+    res.redirect('/code/' + uniqueId);
   });
 
   router.get('/code/:id', function(req, res, next) {
 
     checkJWT(req, res, next);
 
-    /* Check if the user is allowed to access this repo */
-
-    /* First check if repo is public */
+    /* Check if repo already exists */
     knex('repo_info')
     .where({ repoName: req.params.id })
-    .then(function (data) {
+    .then(function(data) {
 
-      // console.log(data[0].isPublic);
-      if (data[0] && !data[0].isPublic) {
+      if (data.length === 0) { //Repo doesnt exist
 
-        /* If repo is not public, check if user is allowed access */
-        knex('repo_perms')
-        .where(
-          {
+        /* Add repo to repoInfo
+        *  Initalize with empty description
+        */
+
+        knex('repo_info')
+        .insert({
+          repoName: req.params.id,
+          repoDescription: '',
+          owner_id: req.session.userInfo.id,
+          isPublic: true
+        }).then(function (data) {
+
+          /* Add user to repo_perms table as owner */
+
+          knex('repo_perms')
+          .insert({
             repoName: req.params.id,
-            user_id: req.session.userInfo.id
-          }
-        ).then(function(data) {
+            user_id: req.session.userInfo.id,
+            permission: pHelper.owner
+          }).then(function(data) {
 
-          if (data.length < 1) {
+            res.render('codeView', { directory: req.params.id });
+          });
+        });
+      } else {
 
-            /* if this is reached, current user is not allowed access, so redirect */
-            // res.json({ error: eHelper.unauthorizedAccess });
-            res.render('error', { error: eHelper.unauthorizedAccess });
+        /* Finally redirect the user to a working repo */
+        /* Check if the user is allowed to access this repo */
+
+        /* First check if repo is public */
+        knex('repo_info')
+        .where({ repoName: req.params.id })
+        .then(function (data) {
+
+          // console.log(data[0].isPublic);
+          if (data[0] && !data[0].isPublic) {
+
+            /* If repo is not public, check if user is allowed access */
+            knex('repo_perms')
+            .where(
+              {
+                repoName: req.params.id,
+                user_id: req.session.userInfo.id
+              }
+            ).then(function(data) {
+
+              if (data.length < 1) {
+
+                /* if this is reached, current user is not allowed access, so redirect */
+                // res.json({ error: eHelper.unauthorizedAccess });
+                res.render('error', { error: eHelper.unauthorizedAccess });
+              } else {
+
+                /* if this section is reached, the user is allowed access */
+                /* This will create a directory within the file system to store all the files */
+                if (!fs.existsSync(path.resolve('./') + '/workDirectories')) {
+
+                  fs.mkdirSync(path.resolve('./') + '/workDirectories');
+                }
+
+                if (!fs.existsSync(path.resolve('./') + '/workDirectories/' + req.params.id)) {
+                  fs.mkdirSync(path.resolve('./') + '/workDirectories/' + req.params.id);
+                }
+
+                // var dirTree = (path.resolve('./') + '/workDirectories/' + req.params.id);
+                //
+                // dHelper.getDirObj(dirTree, function(err, res){
+                //   if(err)
+                //     console.error(err);
+                //
+                //   console.log(JSON.stringify(res));
+                // });
+
+                res.render('codeView', { directory: req.params.id });
+              }
+            });
           } else {
 
             /* if this section is reached, the user is allowed access */
@@ -178,29 +212,6 @@ module.exports = function(router, io, routerRet) {
             res.render('codeView', { directory: req.params.id });
           }
         });
-      } else {
-
-        /* if this section is reached, the user is allowed access */
-        /* This will create a directory within the file system to store all the files */
-        if (!fs.existsSync(path.resolve('./') + '/workDirectories')) {
-
-          fs.mkdirSync(path.resolve('./') + '/workDirectories');
-        }
-
-        if (!fs.existsSync(path.resolve('./') + '/workDirectories/' + req.params.id)) {
-          fs.mkdirSync(path.resolve('./') + '/workDirectories/' + req.params.id);
-        }
-
-        // var dirTree = (path.resolve('./') + '/workDirectories/' + req.params.id);
-        //
-        // dHelper.getDirObj(dirTree, function(err, res){
-        //   if(err)
-        //     console.error(err);
-        //
-        //   console.log(JSON.stringify(res));
-        // });
-
-        res.render('codeView', { directory: req.params.id });
       }
     });
   });

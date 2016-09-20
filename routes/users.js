@@ -135,8 +135,43 @@ module.exports = function(router, routerRet) {
           .where({ repoName: req.params.id })
           .update( { repoName: req.body.repoName } )
           .then(function() {
-            
+
             res.redirect('/editrepo/' + req.body.repoName);
+          });
+        });
+      }
+    });
+
+  });
+
+  router.post(subUrl + '/deleterepo/:id', function(req, res, next) {
+
+    knex('repo_perms')
+    .where({
+      repoName: req.params.id,
+      user_id: req.session.userInfo.id
+    })
+    .then(function(data) {
+
+      if (data.length === 0 || data[0].permission > 1) {
+
+        /* Cannot modify permissions */
+        res.render('error', { error: errorHelper.invalidPermissions });
+      } else {
+
+        // console.log(req.body);
+        knex('repo_info')
+        .where({ repoName: req.params.id})
+        .del()
+        .then(function() {
+
+          //TODO: update repo_perms table with new names as well
+          knex('repo_perms')
+          .where({ repoName: req.params.id })
+          .del()
+          .then(function() {
+
+            res.redirect('/profile');
           });
         });
       }
