@@ -33,6 +33,11 @@ function runOnce() {
     function success(result) {
 
       output.innerHTML += (result.error || '');
+      var psconsole = $('#consoleOutput');
+      if(psconsole.length) {
+
+        psconsole.scrollTop(psconsole[0].scrollHeight - psconsole.height());
+      }
     },
     function error(error) {
 
