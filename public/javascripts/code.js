@@ -22,6 +22,7 @@ $(function() {
   $('#codeArea').keyup(function(event) {
 
     // console.log(event.keyCode);
+    console.log('Called...');
     socket.emit('codeChange', { key: $('#codeArea').html() });
   });
 

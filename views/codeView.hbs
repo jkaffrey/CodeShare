@@ -30,23 +30,18 @@
     </div>
   </div>
   <div class="col-md-9 displayCode">
-    <!-- <pre contenteditable="true" id="codeArea">
-    function helloWorld() {
-
-    console.log('Hello World!');
-  }
-
-  helloWorld();
-</pre> -->
-<textarea id="codeArea"></textarea>
-</div>
+    <textarea id="codeArea"></textarea>
+  </div>
 </div>
 
 <script src="/javascripts/code.js"></script>
 <script src="/javascripts/treeView.js"></script>
 <script src="/ace/ace.js" type="text/javascript"></script>
+<script src="/ace/ext-language_tools.js"></script>
 <script type="text/javascript">
   var editor = ace.edit("codeArea");
-  // editor.setTheme("ace/theme/twilight");
+  editor.setOptions({
+    enableBasicAutocompletion: true
+  });
   editor.session.setMode("ace/mode/javascript");
 </script>
