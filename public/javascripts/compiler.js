@@ -10,7 +10,7 @@ $(function() {
     var TOKEN = {msg_mac: data.msg_mac, time_created: data.time_created};
     repl = new ReplitClient('api.repl.it', 80, 'nodejs', TOKEN);
     repl.connect().then(
-      function() { console.log('connected'); document.getElementById('consoleWorking').src = '../images/connected.png'; },
+      function() { console.log('connected'); document.getElementById('runCode').hidden = false; },
       function(err) { console.log('failed to connect', err); }
     );
   });
@@ -18,19 +18,24 @@ $(function() {
 
 function runOnce() {
 
+  var output = document.getElementById('consoleOutput');
   repl.evaluateOnce(
-    '1 == 1'
+    // 'function helloWorld() { console.log(\'hello world\'); } helloWorld();'
+    document.getElementById('codeArea').textContent,
+    {
+      stdout: function(str) {
+
+        output.innerHTML += str;
+      }
+    }
   )
   .then(
     function success(result) {
-      if (result.error) {
-        console.log('Error:', result.error);
-      } else {
-        console.log('Result', result.data);
-      }
+
+      output.innerHTML += (result.error || '');
     },
     function error(error) {
-      // There was an error connecting to the service :(
+
       console.error('Error connecting to repl.it');
     }
   );

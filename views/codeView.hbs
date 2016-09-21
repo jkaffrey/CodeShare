@@ -5,15 +5,16 @@
       <span>Project: {{directory}}</span>
       <div id="fileTree"></div>
       <hr />
-      <img class="imgButton" src="../images/file_delete.png" onclick="deleteItem()" />
-      <img class="imgButton" src="../images/file_edit.png" onclick="renameItem()" />
-      <img class="imgButton" src="../images/file_add.png" onclick="createFile()" />
+      <span class="modifyFiles">
+        <img class="imgButton" src="../images/file_delete.png" onclick="deleteItem()" />
+        <img class="imgButton" src="../images/file_edit.png" onclick="renameItem()" />
+        <img class="imgButton" src="../images/file_add.png" onclick="createFile()" />
+      </span>
     </div>
     <div class="row console panel panel-body">
-      <span><img id="consoleWorking" src="">Console:</span>
-      <div id="consoleOutput"></div>
+      <div><img id="runCode" style="width: 32px;" class="imgButton" src="../images/run.png" onclick="runOnce()" hidden/>Console:</div>
+      <textarea readonly id="consoleOutput"></textarea>
       <hr />
-      <img style="width: 32px;" class="imgButton" src="../images/run.png" onclick="runOnce()"/>
     </div>
     <div class="row connectedUsers panel panel-body">
       <strong><span>Connected Clients</span></strong>
@@ -33,7 +34,7 @@
           console.log('Hello World!');
         }
 
-        hellowWorld();
+        helloWorld();
       </code>
     </pre>
   </div>
