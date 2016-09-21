@@ -189,10 +189,10 @@ function getSelectionCoords(win) {
 
 document.onmouseup = function() {
 
-  var coords = getSelectionCoords();
+  //var coords = getSelectionCoords();
   //var el = getCursorElement('123');
   //console.log(el.style);
   //el.style.left = coords.x;
   //el.style.top = coords.y;
-  console.log(coords.x + ", " + coords.y);
+  //console.log(coords.x + ", " + coords.y);
 };

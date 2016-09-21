@@ -19,6 +19,8 @@ $(function() {
 function runOnce() {
 
   var output = document.getElementById('consoleOutput');
+  document.getElementById('runCode').hidden = true;
+  document.getElementById('waitingCode').hidden = false;
   repl.evaluateOnce(
     // 'function helloWorld() { console.log(\'hello world\'); } helloWorld();'
     document.getElementById('codeArea').textContent,
@@ -38,6 +40,9 @@ function runOnce() {
 
         psconsole.scrollTop(psconsole[0].scrollHeight - psconsole.height());
       }
+
+      document.getElementById('runCode').hidden = false;
+      document.getElementById('waitingCode').hidden = true;
     },
     function error(error) {
 
