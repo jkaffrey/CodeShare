@@ -18,12 +18,13 @@ $(function() {
 
 function runOnce() {
 
+  // console.log(editor.session.getValue());
   var output = document.getElementById('consoleOutput');
   document.getElementById('runCode').hidden = true;
   document.getElementById('waitingCode').hidden = false;
   repl.evaluateOnce(
     // 'function helloWorld() { console.log(\'hello world\'); } helloWorld();'
-    document.getElementById('codeArea').textContent,
+    editor.session.getValue(), //document.getElementById('codeArea').textContent,
     {
       stdout: function(str) {
 

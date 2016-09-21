@@ -30,18 +30,12 @@
     </div>
   </div>
   <div class="col-md-9 displayCode">
-    <textarea id="codeArea"></textarea>
+    <textarea autofocus id="codeArea"></textarea>
   </div>
 </div>
 
-<script src="/javascripts/code.js"></script>
 <script src="/javascripts/treeView.js"></script>
 <script src="/ace/ace.js" type="text/javascript"></script>
 <script src="/ace/ext-language_tools.js"></script>
-<script type="text/javascript">
-  var editor = ace.edit("codeArea");
-  editor.setOptions({
-    enableBasicAutocompletion: true
-  });
-  editor.session.setMode("ace/mode/javascript");
-</script>
+<script src="/javascripts/code.js"></script>
+<script src="/javascripts/compiler.js"></script>

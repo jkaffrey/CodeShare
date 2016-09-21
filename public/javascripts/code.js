@@ -1,15 +1,22 @@
 'use strict';
 
+var editor = ace.edit('codeArea');
+
 $(function() {
 
   var id = window.location.pathname.match(new RegExp('[^/]+$')); //window.location.pathname.split('/')[2];
   // console.log('id', id);
   var socket = io();
 
-  $.get('http://localhost:3000/api/v1/loggedInfo', function(data) {
+  editor.setOptions({
+    enableBasicAutocompletion: true
+  });
+  editor.session.setMode('ace/mode/javascript');
+
+  $.get('/api/v1/loggedInfo', function(data) {
 
     var name = data.firstname + ' ' + data.lastname; //Math.random().toString(36).substring(4); //prompt('What is your name?'); //TODO: Change based off of login
-    socket.emit('login', { user: name,  id: id });
+    socket.emit('login', { user: name,  id: id, color: randomColor() });
   });
 
   $('#roomName').html(id);
@@ -19,11 +26,20 @@ $(function() {
     onKeyDown(event);
   });
 
-  $('#codeArea').keyup(function(event) {
+  // $('#codeArea').keyup(function(event) {
+  //
+  //   // console.log(event.keyCode);
+  //   console.log('Called...');
+  //   socket.emit('codeChange', { key: $('#codeArea').html() });
+  // });
 
-    // console.log(event.keyCode);
-    console.log('Called...');
-    socket.emit('codeChange', { key: $('#codeArea').html() });
+  editor.session.on('change', function(data) {
+
+    // console.log(editor.session.getValue());
+    if (editor.curOp && editor.curOp.command.name) { // make sure this is a user change
+
+      socket.emit('codeChange', { key: editor.session.getValue() });
+    }
   });
 
   $('#fileTree').on("changed.jstree", function (e, data) {
@@ -33,10 +49,12 @@ $(function() {
       console.log(id + '/' + $('#fileTree').jstree(true).get_path(data.selected, '/'));
       if (res) {
 
-        $('#codeArea').html(res);
+        //$('#codeArea').html(res);
+        editor.session.setValue(res);
       } else {
 
-        $('#codeArea').html('An error occurred.');
+        editor.session.setValue('An error occurred.');
+        // $('#codeArea').html('An error occurred.');
       }
     });
     // console.log(data.selected);
@@ -59,7 +77,7 @@ $(function() {
     $('.users').empty();
     for (var i = 0; i < data.connected.length; i++) {
 
-      console.log(data.connected[i] != null);
+      console.log(data);
       if (data.connected[i] != null) $('.users').prepend('<li>' + data.connected[i] + '</li>');
     }
 
@@ -89,7 +107,8 @@ $(function() {
   socket.on('codeChangeHappen', function(data) {
 
     // $('#codeArea').val($('#codeArea').val() + data.key);
-    $('#codeArea').html(data.key);
+    // $('#codeArea').html(data.key);
+    editor.session.setValue(data.key);
   });
 });
 
@@ -188,12 +207,9 @@ function getSelectionCoords(win) {
   return { x: x, y: y };
 }
 
-document.onmouseup = function() {
+function randomColor() {
 
-  //var coords = getSelectionCoords();
-  //var el = getCursorElement('123');
-  //console.log(el.style);
-  //el.style.left = coords.x;
-  //el.style.top = coords.y;
-  //console.log(coords.x + ", " + coords.y);
-};
+  return '#' + (function co(lor){   return (lor +=
+  [0,1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f'][Math.floor(Math.random()*16)]) &&
+  (lor.length === 6) ?  lor : co(lor); })('');
+}
