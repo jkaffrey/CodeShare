@@ -27,6 +27,17 @@ $(function() {
 
   $('#fileTree').on("changed.jstree", function (e, data) {
 
+    getFileFromServer('api/v1/getFile/' + id + '/' + $('#fileTree').jstree(true).get_path(data.selected, '/'), function(res) {
+
+      console.log(id + '/' + $('#fileTree').jstree(true).get_path(data.selected, '/'));
+      if (res) {
+
+        $('#codeArea').html(res);
+      } else {
+
+        $('#codeArea').html('An error occurred.');
+      }
+    });
     // console.log(data.selected);
     // console.log(id + '/' + $('#fileTree').jstree(true).get_path(data.selected, '/'));
   });
@@ -86,12 +97,12 @@ function getFileFromServer(url, doneCallback) {
 
   xhr = new XMLHttpRequest();
   xhr.onreadystatechange = handleStateChange;
-  xhr.open("GET", url, true);
+  xhr.open('GET', url, true);
   xhr.send();
 
   function handleStateChange() {
     if (xhr.readyState === 4) {
-      doneCallback(xhr.status == 200 ? xhr.responseText : null);
+      doneCallback(xhr.status === 200 ? xhr.responseText : null);
     }
   }
 }

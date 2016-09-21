@@ -6,6 +6,7 @@ const permHelper = require('../helpers/permissionHelper');
 const errorHelper = require('../helpers/errorStandards');
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 
 
 module.exports = function(router, routerRet) {
@@ -14,10 +15,21 @@ module.exports = function(router, routerRet) {
   router.get(/\/api\/v1\/getFile((\/\w+)*\.\w+)$/, function(req, res, next) {
 
     // res.json(req.params);
-    fs.readFile(path.resolve('./') + '/workDirectories' + req.params[0], 'utf8', (err, data) => {
+    fs.readFile(path.resolve('./') + '/workDirectories' + req.params[0], 'ascii', (err, data) => {
 
       if (err) res.json(err);
       res.json(data);
+    });
+  });
+
+  router.get(subUrl + '/generateToken', function(req, res, next) {
+
+    var cTime = new Date().getTime();
+    const hash = crypto.createHmac('sha256', process.env.REPLIT_SECRET).update(cTime + '').digest('base64');
+
+    res.json({
+      msg_mac: hash,
+      time_created: cTime
     });
   });
 

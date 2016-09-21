@@ -9,6 +9,12 @@
       <img class="imgButton" src="../images/file_edit.png" onclick="renameItem()" />
       <img class="imgButton" src="../images/file_add.png" onclick="createFile()" />
     </div>
+    <div class="row console panel panel-body">
+      <span><img id="consoleWorking" src="">Console:</span>
+      <div id="consoleOutput"></div>
+      <hr />
+      <img style="width: 32px;" class="imgButton" src="../images/run.png" onclick="runOnce()"/>
+    </div>
     <div class="row connectedUsers panel panel-body">
       <strong><span>Connected Clients</span></strong>
       <ul class="users">
