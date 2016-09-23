@@ -82,14 +82,6 @@ pre {
   height: 150px;
 }
 
-.modifyFiles {
-
-  position: relative;
-  bottom: -135px;
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
-
 .fileTree, .connectedUsers {
 
   overflow-y: scroll;

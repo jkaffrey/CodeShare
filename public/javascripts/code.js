@@ -42,13 +42,18 @@ $(function() {
     }
   });
 
-  $('#fileTree').on("changed.jstree", function (e, data) {
+  $('#fileTree').on('changed.jstree', function (e, data) {
+
+    var isFolder = $('#fileTree').jstree(true).get_node(data.selected).icon.indexOf('folder') >= 0;
+
+    if (isFolder)
+      return;
 
     getFileFromServer('api/v1/getFile/' + id + '/' + $('#fileTree').jstree(true).get_path(data.selected, '/'), function(res) {
 
       // console.log(id + '/' + $('#fileTree').jstree(true).get_path(data.selected, '/'));
       var fileExtension = $('#fileTree').jstree(true).get_path(data.selected, '/').match(new RegExp('[^\.]+$'))[0];
-      console.log(fileExtension);
+
       if (res) {
 
         //$('#codeArea').html(res);
@@ -94,17 +99,29 @@ $(function() {
         //var oData = res.replace(/(\r\n|\n|\r)/gm, '');
         console.log(res);
         editor.session.setValue(res);
-      } else {
-
-        editor.session.setValue('An error occurred.');
-        // $('#codeArea').html('An error occurred.');
       }
+      // else {
+      //
+      //   editor.session.setValue('An error occurred.');
+      //   // $('#codeArea').html('An error occurred.');
+      // }
     });
     // console.log(data.selected);
     // console.log(id + '/' + $('#fileTree').jstree(true).get_path(data.selected, '/'));
   });
 
   /* Begin Sockets */
+
+  socket.on('updateFileView', function(data) {
+
+    $('#fileTree').jstree(
+      {
+        'core' : {
+          'data' : data.fileView
+        }
+      }
+    );
+  });
 
   socket.on('welcomeEvent', function(data) {
 

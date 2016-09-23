@@ -14,28 +14,40 @@ function getPath() {
 
 function createFile() {
 
+  var fileName = prompt('Please enter a file name.');
   if (getPath().indexOf('false') < 0) {
-    socket.emit('fileManip', { action: 'createFile', dir: getPath() });
+
+    socket.emit('fileManip', { action: 'createFile', dir: getPath(), name: fileName });
   }
 }
 
 function createFolder() {
 
+  var fileName = prompt('Please enter a folder name.');
   if (getPath().indexOf('false') < 0) {
-    socket.emit('fileManip', { action: 'createFolder', dir: getPath() });
+
+    socket.emit('fileManip', { action: 'createFolder', dir: getPath(), name: fileName });
   }
 }
 
 function deleteItem() {
 
   if (getPath().indexOf('false') < 0) {
+
     socket.emit('fileManip', { action: 'delete', dir: getPath() });
   }
 }
 
 function renameItem() {
 
+  var fileName = prompt('Please enter a new name.');
   if (getPath().indexOf('false') < 0) {
-    socket.emit('fileManip', { action: 'rename', dir: getPath() });
+
+    socket.emit('fileManip', { action: 'rename', dir: getPath(), name: fileName });
   }
 }
+//
+// function update_F_View() {
+//
+//   socket.emit('updateFView', { id: window.location.pathname.match(new RegExp('[^/]+$'))[0] });
+// }

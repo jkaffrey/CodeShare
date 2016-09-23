@@ -18,8 +18,7 @@ module.exports = function(router, routerRet) {
     fs.readFile(path.resolve('./') + '/workDirectories' + req.params[0], 'utf8', (err, data) => {
 
       if (err) res.json(err);
-      // res.json(JSON.parse({"text": data.toString()}));
-      res.write(data.toString());
+      res.write(data ? data : ('//File: ' + req.params[1].replace('/', '')));
       res.end();
     });
   });

@@ -220,6 +220,17 @@ module.exports = function(router, io, routerRet) {
   //TODO: Socket.io code goes here
   var codeConnection = io.on('connection', function(socket) {
 
+    socket.on('updateFView', function(data) {
+
+      var dirTree = (path.resolve('./') + '/workDirectories/' + data.id);
+
+      dHelper.getDirObj(dirTree, function(err, res){
+        if(err) console.error(err);
+
+        codeConnection.in(data.id).emit('updateFileView', { fileView: res });
+      });
+    });
+
     socket.on('load', function(data) {
 
       var codeRoom = findClientsSocket(io, data);
@@ -281,12 +292,54 @@ module.exports = function(router, io, routerRet) {
 
     socket.on('fileManip', function(data) {
 
-      console.log(JSON.stringify(data));
+      var dealingDir = data.dir.indexOf('.') >= 0 ? data.dir.match(new RegExp('^(.*[\\\/])'))[0] : data.dir;
+      var isFile = data.dir.indexOf('.') >= 0 ? true : false;
+      var fullPath = path.resolve('./') + '/workDirectories/' + dealingDir + '/' + data.name;
+      var pathWithFileName = path.resolve('./') + '/workDirectories/' + data.dir;
+
+      if (data.action === 'createFile') {
+
+        fs.writeFile(fullPath, '', function(err) {
+
+          if (err) console.log(err);
+          else console.log('Created file');
+        });
+      } else if (data.action === 'createFolder') {
+
+        fs.mkdirSync(fullPath);
+      } else if (data.action === 'delete') {
+
+        if (isFile) {
+
+          fs.unlinkSync(pathWithFileName);
+        } else {
+
+          deleteFolderRecursive(pathWithFileName);
+        }
+      } else if (data.action === 'rename') {
+
+      }
+
+      // socket.broadcast.to(socket.room).emit('codeChangeHappen', { key: codeHi });
     });
   });
 
   return routerRet;
 };
+
+function deleteFolderRecursive(path) {
+  if( fs.existsSync(path) ) {
+    fs.readdirSync(path).forEach(function(file,index){
+      var curPath = path + '/' + file;
+      if(fs.lstatSync(curPath).isDirectory()) { // recurse
+        deleteFolderRecursive(curPath);
+      } else { // delete file
+        fs.unlinkSync(curPath);
+      }
+    });
+    fs.rmdirSync(path);
+  }
+}
 
 function checkJWT(req, res, next) {
 
