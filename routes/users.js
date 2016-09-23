@@ -34,9 +34,17 @@ module.exports = function(router, routerRet) {
     });
   });
 
-  router.get(subUrl + '/loggedInfo', function(req, res, next) {
+  router.get(subUrl + '/loggedInfo/:id', function(req, res, next) {
 
-    res.json(req.session.userInfo);
+    knex('repo_perms')
+    .where({ repoName: req.params.id, user_id: req.session.userInfo.id})
+    .then(function(data) {
+
+      var result={};
+      Object.keys(req.session.userInfo).forEach((key) => result[key] = req.session.userInfo[key]);
+      Object.keys(data[0]).forEach((key) => result[key] = data[0][key]);
+      res.json(result);
+    });
   });
 
   router.get(subUrl + '/userExists/:email', function(req, res, next) {

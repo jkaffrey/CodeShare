@@ -13,8 +13,16 @@ $(function() {
   });
   editor.session.setMode('ace/mode/javascript');
 
-  $.get('/api/v1/loggedInfo', function(data) {
+  $.get('/api/v1/loggedInfo/' + id, function(data) {
 
+    if (data.permission === 3) {
+
+      editor.setOptions({
+        readOnly: true,
+        highlightActiveLine: false,
+        highlightGutterLine: false
+      });
+    }
     var name = data.firstname + ' ' + data.lastname; //Math.random().toString(36).substring(4); //prompt('What is your name?'); //TODO: Change based off of login
     socket.emit('login', { user: name,  id: id, color: randomColor() });
   });
@@ -47,7 +55,7 @@ $(function() {
     var isFolder = $('#fileTree').jstree(true).get_node(data.selected).icon.indexOf('folder') >= 0;
 
     if (isFolder)
-      return;
+    return;
 
     getFileFromServer('api/v1/getFile/' + id + '/' + $('#fileTree').jstree(true).get_path(data.selected, '/'), function(res) {
 
@@ -276,6 +284,6 @@ function getSelectionCoords(win) {
 function randomColor() {
 
   return '#' + (function co(lor){   return (lor +=
-  [0,1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f'][Math.floor(Math.random()*16)]) &&
-  (lor.length === 6) ?  lor : co(lor); })('');
-}
+    [0,1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f'][Math.floor(Math.random()*16)]) &&
+    (lor.length === 6) ?  lor : co(lor); })('');
+  }
