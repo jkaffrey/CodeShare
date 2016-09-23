@@ -250,7 +250,7 @@ module.exports = function(router, io, routerRet) {
 
         // console.log(res);
         // console.log('name:', codeRoom[0]);
-        codeConnection.in(data.id).emit('welcomeEvent', { fileView: res, connected: users, who: socket.username, when: moment().format('LTS') }); //Send a user a welcome message when they login
+        codeConnection.in(data.id).emit('welcomeEvent', { fileView: res, connected: users, who: socket.username, when: moment().format('LTS'), color: data.color } ); //Send a user a welcome message when they login
       });
 
       // console.log(moment(moment().format('LTS'), 'hh:mm:ss a').fromNow());

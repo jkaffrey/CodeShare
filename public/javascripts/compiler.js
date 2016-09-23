@@ -9,6 +9,7 @@ $(function() {
     console.log(data);
     var TOKEN = {msg_mac: data.msg_mac, time_created: data.time_created};
     repl = new ReplitClient('api.repl.it', 80, 'nodejs', TOKEN);
+    //TODO: change replit-client compiler depending on file extension
     repl.connect().then(
       function() { console.log('connected'); document.getElementById('runCode').hidden = false; },
       function(err) { console.log('failed to connect', err); }

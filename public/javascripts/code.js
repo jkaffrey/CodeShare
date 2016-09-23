@@ -46,10 +46,53 @@ $(function() {
 
     getFileFromServer('api/v1/getFile/' + id + '/' + $('#fileTree').jstree(true).get_path(data.selected, '/'), function(res) {
 
-      console.log(id + '/' + $('#fileTree').jstree(true).get_path(data.selected, '/'));
+      // console.log(id + '/' + $('#fileTree').jstree(true).get_path(data.selected, '/'));
+      var fileExtension = $('#fileTree').jstree(true).get_path(data.selected, '/').match(new RegExp('[^\.]+$'))[0];
+      console.log(fileExtension);
       if (res) {
 
         //$('#codeArea').html(res);
+        /* change editor view depending on file extension */
+        if (fileExtension === 'js') {
+
+          editor.session.setMode('ace/mode/javascript');
+        } else if (fileExtension === 'css') {
+
+          editor.session.setMode('ace/mode/css');
+        } else if (fileExtension === 'scss') {
+
+          editor.session.setMode('ace/mode/scss');
+        } else if (fileExtension === 'php') {
+
+          editor.session.setMode('ace/mode/php');
+        } else if (fileExtension === 'java') {
+
+          editor.session.setMode('ace/mode/java');
+        } else if (fileExtension === 'md') {
+
+          editor.session.setMode('ace/mode/markdown');
+        } else if (fileExtension === 'json') {
+
+          editor.session.setMode('ace/mode/json');
+        } else if (fileExtension === 'html') {
+
+          editor.session.setMode('ace/mode/html');
+        } else if (fileExtension === 'hbs') {
+
+          editor.session.setMode('ace/mode/handlebars');
+        } else if (fileExtension === 'cpp') {
+
+          editor.session.setMode('ace/mode/c_cpp');
+        } else if (fileExtension === 'cs') {
+
+          editor.session.setMode('ace/mode/csharp');
+        } else if (fileExtension === 'c') {
+
+          editor.session.setMode('ace/mode/c');
+        }
+
+        //var oData = res.replace(/(\r\n|\n|\r)/gm, '');
+        console.log(res);
         editor.session.setValue(res);
       } else {
 
@@ -77,8 +120,8 @@ $(function() {
     $('.users').empty();
     for (var i = 0; i < data.connected.length; i++) {
 
-      console.log(data);
-      if (data.connected[i] != null) $('.users').prepend('<li>' + data.connected[i] + '</li>');
+      console.log(data.connected[i]);
+      if (data.connected[i] != null) $('.users').prepend('<li style="color: ' + data.color + '">' + data.connected[i] + '</li>');
     }
 
     $('.recentConnections').prepend('<li>' + data.who + ' <span class="green">connected</span>. [' + data.when + ']</li>');

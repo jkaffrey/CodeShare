@@ -15,10 +15,12 @@ module.exports = function(router, routerRet) {
   router.get(/\/api\/v1\/getFile((\/\w+)*\.\w+)$/, function(req, res, next) {
 
     // res.json(req.params);
-    fs.readFile(path.resolve('./') + '/workDirectories' + req.params[0], 'ascii', (err, data) => {
+    fs.readFile(path.resolve('./') + '/workDirectories' + req.params[0], 'utf8', (err, data) => {
 
       if (err) res.json(err);
-      res.json(data);
+      // res.json(JSON.parse({"text": data.toString()}));
+      res.write(data.toString());
+      res.end();
     });
   });
 
