@@ -151,6 +151,12 @@ module.exports = function(router, io, routerRet) {
           // console.log(data[0].isPublic);
           if (data[0] && !data[0].isPublic) {
 
+            /* If user is guest, they can view all repos but not create them */
+            if (req.session.userInfo.permission === 4) {
+
+              res.render('codeView', { directory: req.params.id });
+            }
+
             /* If repo is not public, check if user is allowed access */
             knex('repo_perms')
             .where(

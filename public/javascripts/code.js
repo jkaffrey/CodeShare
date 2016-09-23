@@ -15,7 +15,7 @@ $(function() {
 
   $.get('/api/v1/loggedInfo/' + id, function(data) {
 
-    if (data.permission === 3) {
+    if (data.permission >= 3) {
 
       editor.setOptions({
         readOnly: true,
