@@ -5,17 +5,17 @@
       <span>Project: {{directory}}</span>
       <div id="fileTree"></div>
       <hr />
-      <span class="modifyFiles">
+      <!-- <span class="modifyFiles">
         <img class="imgButton" src="../images/file_delete.png" onclick="deleteItem()" />
         <img class="imgButton" src="../images/file_edit.png" onclick="renameItem()" />
         <img class="imgButton" src="../images/file_add.png" onclick="createFile()" />
         <img class="imgButton" src="../images/file_add.png" onclick="createFolder()" />
-      </span>
+      </span> -->
     </div>
     <div class="row console panel panel-body">
       <div>
-        <img id="runCode" style="width: 32px;" class="imgButton" src="../images/run.png" onclick="runOnce()" hidden/>Console:
-        <img id="waitingCode" style="width: 32px;" class="imgButton" src="../images/loading.gif" hidden/>
+        <img id="runCode" style="width: 32px;" class="fltBtn" src="../images/run.png" onclick="runOnce()" hidden/>Console:
+        <img id="waitingCode" style="width: 32px;" class="fltBtn" src="../images/loading.gif" hidden/>
       </div>
       <textarea readonly id="consoleOutput"></textarea>
       <hr />
@@ -35,8 +35,25 @@
   </div>
 </div>
 
+<nav id="context-menu" class="context-menu"><ul class="context-menu__items">
+  <li class="context-menu__item">
+    <a href="#" class="context-menu__link" data-action="View" onclick="createFile()"><img class="imgButton" src="../images/file_add.png" /> Create File</a>
+  </li>
+  <li class="context-menu__item">
+    <a href="#" class="context-menu__link" data-action="Edit" onclick="createFolder()"><img class="imgButton" src="../images/file_add.png" /> Create Folder</a>
+  </li>
+  <li class="context-menu__item">
+    <a href="#" class="context-menu__link" data-action="Delete" onclick="renameItem()"><img class="imgButton" src="../images/file_edit.png" /> Rename</a>
+  </li>
+  <li class="context-menu__item">
+    <a href="#" class="context-menu__link" data-action="Delete" onclick="deleteItem()"><img class="imgButton" src="../images/file_delete.png" /> Delete</a>
+  </li>
+</ul>
+</nav>
+
 <script src="/javascripts/treeView.js"></script>
 <script src="/ace/ace.js" type="text/javascript"></script>
 <script src="/ace/ext-language_tools.js"></script>
 <script src="/javascripts/code.js"></script>
 <script src="/javascripts/compiler.js"></script>
+<script src="/javascripts/contextmenu.js"></script>

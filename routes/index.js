@@ -294,7 +294,7 @@ module.exports = function(router, io, routerRet) {
 
       var dealingDir = data.dir.indexOf('.') >= 0 ? data.dir.match(new RegExp('^(.*[\\\/])'))[0] : data.dir;
       var isFile = data.dir.indexOf('.') >= 0 ? true : false;
-      var fullPath = path.resolve('./') + '/workDirectories/' + dealingDir + '/' + data.name;
+      var fullPath = path.resolve('./') + '/workDirectories/' + dealingDir + data.name;
       var pathWithFileName = path.resolve('./') + '/workDirectories/' + data.dir;
 
       if (data.action === 'createFile') {
@@ -302,11 +302,12 @@ module.exports = function(router, io, routerRet) {
         fs.writeFile(fullPath, '', function(err) {
 
           if (err) console.log(err);
-          else console.log('Created file');
+          else updateView(codeConnection, dealingDir);
         });
       } else if (data.action === 'createFolder') {
 
         fs.mkdirSync(fullPath);
+        updateView(codeConnection, dealingDir);
       } else if (data.action === 'delete') {
 
         if (isFile) {
@@ -316,18 +317,40 @@ module.exports = function(router, io, routerRet) {
 
           deleteFolderRecursive(pathWithFileName);
         }
+        updateView(codeConnection, dealingDir);
       } else if (data.action === 'rename') {
 
-      }
+        console.log(pathWithFileName, fullPath);
+        fs.rename(pathWithFileName, fullPath, function(err) {
 
-      // socket.broadcast.to(socket.room).emit('codeChangeHappen', { key: codeHi });
+          if (err) throw err;
+          else {
+            
+            updateView(codeConnection, dealingDir);
+          }
+        });
+      }
     });
   });
 
   return routerRet;
 };
 
+function updateView(codeConnection, dealingDir) {
+
+  console.log('Updating views');
+
+  var dirTree = (path.resolve('./') + '/workDirectories/' + dealingDir.match(new RegExp('[^\/]*'))[0]);
+  dHelper.getDirObj(dirTree, function(err, res) {
+
+    if(err) console.error(err);
+    console.log('Please do things.');
+    codeConnection.in(dealingDir.match(new RegExp('[^\/]*'))[0]).emit('updateFileView', { fileView: res });
+  });
+}
+
 function deleteFolderRecursive(path) {
+
   if( fs.existsSync(path) ) {
     fs.readdirSync(path).forEach(function(file,index){
       var curPath = path + '/' + file;

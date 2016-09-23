@@ -105,10 +105,15 @@ pre {
   padding-left: 0;
 }
 
-.imgButton {
+.fltBtn {
 
   float: right;
   padding-right: 15px;
+}
+
+.imgButton {
+
+  width: 16px;
 }
 
 .imgButton:hover {

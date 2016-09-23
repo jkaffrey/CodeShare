@@ -114,6 +114,12 @@ $(function() {
 
   socket.on('updateFileView', function(data) {
 
+    // $('#fileTree').jstree(true).deselect_all();
+    // $('#fileTree').jstree(true).settings.core.data = data.fileView;
+    // $('#fileTree').jstree(true).refresh();
+
+    //TODO: do better!
+    $('#fileTree').jstree(true).destroy();
     $('#fileTree').jstree(
       {
         'core' : {
