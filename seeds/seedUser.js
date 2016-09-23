@@ -1,5 +1,6 @@
 'use strict';
 
+var emailAuth = require('../helpers/emailAuthHelper');
 exports.seed = function(knex, Promise) {
 
   return knex('users').del()
@@ -13,7 +14,9 @@ exports.seed = function(knex, Promise) {
             lastname: 'Kaffrey',
             securtyQuestion: 'Name of first school?',
             securityAnswer: '1234',
-            profilePicture: null
+            profilePicture: null,
+            isVerified: true,
+            uuid: emailAuth.generateUUID()
           }
         ),
 
@@ -25,7 +28,9 @@ exports.seed = function(knex, Promise) {
             password: '1234',
             securtyQuestion: 'Name of first pet?',
             securityAnswer: '1234',
-            profilePicture: 'http://placekitten.com/g/200/300'
+            profilePicture: 'http://placekitten.com/g/200/300',
+            isVerified: true,
+            uuid: emailAuth.generateUUID()
           }
         ),
 
@@ -37,7 +42,8 @@ exports.seed = function(knex, Promise) {
             password: '1234',
             securtyQuestion: 'Mothers maiden name?',
             securityAnswer: '1234',
-            profilePicture: null
+            profilePicture: null,
+            uuid: emailAuth.generateUUID()
           }
         )
       ]);

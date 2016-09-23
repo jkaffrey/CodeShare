@@ -17,11 +17,12 @@ module.exports = function(router, io, routerRet) {
 
   router.get('/', function(req, res, next) {
 
-    // console.log(req.session.userInfo);
     res.render('index');
   });
 
   router.get('/profile', function(req, res, next) {
+
+    checkJWT(req, res, next);
 
     knex('repo_perms')
     .join('repo_info', 'repo_perms.repoName', '=', 'repo_info.repoName')
@@ -55,6 +56,7 @@ module.exports = function(router, io, routerRet) {
 
   router.get('/editrepo/:id', function(req, res, next) {
 
+    checkJWT(req, res, next);
     knex('repo_info')
     .where({ repoName: req.params.id })
     .then(function(data) {
@@ -325,7 +327,7 @@ module.exports = function(router, io, routerRet) {
 
           if (err) throw err;
           else {
-            
+
             updateView(codeConnection, dealingDir);
           }
         });
@@ -378,6 +380,12 @@ function checkJWT(req, res, next) {
       } else {
 
         req.session.userInfo = decoded;
+        console.log('Verified', req.session.userInfo);
+        /* Check account verified */
+        if (!req.session.userInfo.isVerified) {
+
+          res.redirect('/');
+        }
       }
     });
   } else {

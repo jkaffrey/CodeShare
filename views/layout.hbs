@@ -92,6 +92,14 @@
     </div>
   </div>
   <!-- End Nav Bar -->
+  <div class="errors center">
+    {{#if session.userInfo}}
+    {{#if session.userInfo.isVerified}}
+    {{else}}
+    <span class="alert alert-danger">Your account is not verified, you will have limited abilites until you verify your account.</span>
+    {{/if}}
+    {{/if}}
+  </div>
   {{{body}}}
 </body>
 </html>

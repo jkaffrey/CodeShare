@@ -2,6 +2,8 @@
 
 exports.up = function(knex, Promise) {
 
+  // var uuid = generateUUID();
+
   return knex.schema.createTable('users', function(table) {
 
     table.increments('id');
@@ -12,6 +14,8 @@ exports.up = function(knex, Promise) {
     table.string('securtyQuestion');
     table.string('securityAnswer');
     table.string('profilePicture');
+    table.boolean('isVerified').defaultTo(false);
+    table.string('uuid');
   });
 };
 

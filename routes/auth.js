@@ -7,8 +7,31 @@ const knex = require('../db/knex');
 const jwt = require('jsonwebtoken');
 // const multer = require('multer');
 const errors = require('../helpers/errorStandards');
+const emailAuth = require('../helpers/emailAuthHelper');
 
 module.exports = function(router, multer, upload) {
+
+  router.get('/verify/:id', function(req, res, next) {
+
+    knex('users')
+    .returning('*')
+    .where({ uuid: req.params.id })
+    .update({
+
+      isVerified: true
+    })
+    .then(function(data) {
+
+      delete data[0].password;
+      delete data[0].securityAnswer;
+      delete data[0].uuid;
+
+      delete req.session.userInfo;
+      req.session.userInfo = data[0];
+      console.log(req.session.userInfo);
+      res.redirect('../');
+    });
+  });
 
   router.get('/register', function(req, res, next) {
 
@@ -28,10 +51,12 @@ module.exports = function(router, multer, upload) {
         lastname: req.body.name.split(' ')[1],
         profilePicture: req.file ? req.file.path.replace('public', '') : '',
         securtyQuestion: req.body.securityQuestions,
-        securityAnswer: req.body.securityAnswer
+        securityAnswer: req.body.securityAnswer,
+        uuid: emailAuth.generateUUID()
       }
     ).then(function(data) {
 
+      emailAuth.sendEmail(req.body.email, data[0].uuid);
       res.redirect('../');
     });
   });
