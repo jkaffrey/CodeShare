@@ -47,7 +47,10 @@ app.use(cookieSession({
   name: 'session',
   keys: [process.env.C_SECRET_0, process.env.C_SECRET_1]
 }));
-
+app.use(function(req, res, next) {
+  console.log(req.session);
+  next();
+});
 app.use(function(req,res,next){
   res.locals.session = req.session;
   // console.log('Locals', res.locals.session);

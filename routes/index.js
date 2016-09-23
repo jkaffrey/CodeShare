@@ -22,7 +22,7 @@ module.exports = function(router, io, routerRet) {
 
   router.get('/profile', function(req, res, next) {
 
-    checkJWT(req, res, next);
+    checkJWT(req, res, next, req.session.userInfo);
 
     knex('repo_perms')
     .join('repo_info', 'repo_perms.repoName', '=', 'repo_info.repoName')
@@ -56,7 +56,7 @@ module.exports = function(router, io, routerRet) {
 
   router.get('/editrepo/:id', function(req, res, next) {
 
-    checkJWT(req, res, next);
+    checkJWT(req, res, next, req.session.userInfo);
     knex('repo_info')
     .where({ repoName: req.params.id })
     .then(function(data) {
@@ -98,14 +98,14 @@ module.exports = function(router, io, routerRet) {
 
   router.get('/code', function(req, res, next) {
 
-    checkJWT(req, res, next);
+    checkJWT(req, res, next, req.session.userInfo);
     var uniqueId = Math.random().toString(36).substring(7);
     res.redirect('/code/' + uniqueId);
   });
 
   router.get('/code/:id', function(req, res, next) {
 
-    checkJWT(req, res, next);
+    checkJWT(req, res, next, req.session.userInfo);
 
     /* Check if repo already exists */
     knex('repo_info')
@@ -366,7 +366,7 @@ function deleteFolderRecursive(path) {
   }
 }
 
-function checkJWT(req, res, next) {
+function checkJWT(req, res, next, newInfo) {
 
   var token = req.session.access_token;
   if (token) {
@@ -379,8 +379,8 @@ function checkJWT(req, res, next) {
         });
       } else {
 
-        req.session.userInfo = decoded;
-        console.log('Verified', req.session.userInfo);
+        req.session.userInfo = newInfo || decoded;
+        // console.log('Verified', req.session.userInfo);
         /* Check account verified */
         if (!req.session.userInfo.isVerified) {
 

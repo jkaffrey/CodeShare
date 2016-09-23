@@ -13,6 +13,8 @@ module.exports = function(router, multer, upload) {
 
   router.get('/verify/:id', function(req, res, next) {
 
+    console.log('here');
+
     knex('users')
     .returning('*')
     .where({ uuid: req.params.id })
