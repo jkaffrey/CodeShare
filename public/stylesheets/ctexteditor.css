@@ -121,3 +121,9 @@ pre {
   cursor: pointer;
   opacity: .75;
 }
+
+/* File Functions Style */
+.fileTree { position: relative; }
+.navbar-xs { min-height:22px; border-radius: 10px; border: 0px; background-color: #fff; position: absolute; top: 0px; right: 0px; padding: 0px; margin: 0px; }
+.navbar-xs .navbar-nav > li > ul > li > a {  padding-top: 2px; padding-bottom: 2px; }
+.navbar-xs .navbar-nav > li > ul > li > a > img { width: 16px }

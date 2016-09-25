@@ -46,6 +46,19 @@ function renameItem() {
     socket.emit('fileManip', { action: 'rename', dir: getPath(), name: fileName });
   }
 }
+
+function saveFile() {
+
+  if (getPath().indexOf('false' < 0)) {
+
+    var toSave = editor.session.getValue();
+    socket.emit('fileManip', { action: 'saveSingle', dir: getPath(), text: toSave });
+  }
+}
+
+function saveAll() {
+
+}
 //
 // function update_F_View() {
 //

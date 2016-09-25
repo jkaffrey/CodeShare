@@ -337,6 +337,15 @@ module.exports = function(router, io, routerRet) {
             updateView(codeConnection, dealingDir);
           }
         });
+      } else  if (data.action === 'saveSingle') {
+
+        fs.writeFile(pathWithFileName, data.text, function(err) {
+
+          if (err) throw err;
+          else {
+            console.log('Save successful.');
+          }
+        });
       }
     });
   });
