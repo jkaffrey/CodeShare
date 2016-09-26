@@ -130,6 +130,19 @@ pre {
   opacity: .75;
 }
 
+.refreshView {
+
+  position: absolute;
+  bottom: 25px;
+  right: 25px;
+}
+
+.refreshView:hover {
+
+  opacity: 0.75;
+  cursor: pointer;
+}
+
 /* File Functions Style */
 .fileTree { position: relative; }
 .navbar-xs { min-height:22px; border-radius: 10px; border: 0px; background-color: #fff; position: absolute; top: 0px; right: 0px; padding: 0px; margin: 0px; }

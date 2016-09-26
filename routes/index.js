@@ -341,7 +341,7 @@ module.exports = function(router, io, routerRet) {
             updateView(codeConnection, dealingDir);
           }
         });
-      } else  if (data.action === 'saveSingle') {
+      } else if (data.action === 'saveSingle') {
 
         fs.writeFile(pathWithFileName, data.text, function(err) {
 
@@ -350,6 +350,9 @@ module.exports = function(router, io, routerRet) {
             console.log('Save successful.');
           }
         });
+      } else if (data.action === 'updateView') {
+
+        updateView(codeConnection, dealingDir);
       }
     });
   });

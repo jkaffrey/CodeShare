@@ -74,6 +74,11 @@ function sendMessage(user) {
 function saveAll() {
 
 }
+
+function refreshView() {
+
+  socket.emit('fileManip', { action: 'updateView', dir: getPath() });
+}
 //
 // function update_F_View() {
 //
