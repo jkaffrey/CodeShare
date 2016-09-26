@@ -46,7 +46,7 @@ $(function() {
     // console.log(editor.session.getValue());
     if (editor.curOp && editor.curOp.command.name) { // make sure this is a user change
 
-      socket.emit('codeChange', { key: editor.session.getValue() });
+      socket.emit('codeChange', { key: editor.session.getValue() }); //TODO: broadcast file name as well
     }
   });
 
@@ -183,6 +183,12 @@ $(function() {
     // $('#codeArea').val($('#codeArea').val() + data.key);
     // $('#codeArea').html(data.key);
     editor.session.setValue(data.key);
+  });
+
+  socket.on('newClientChatMessage', function(data) {
+
+    console.log('Things', data.message);
+    $('#messages').append('<li class="ownMessage">' + data.message + '</li>');
   });
 });
 

@@ -135,3 +135,32 @@ pre {
 .navbar-xs { min-height:22px; border-radius: 10px; border: 0px; background-color: #fff; position: absolute; top: 0px; right: 0px; padding: 0px; margin: 0px; }
 .dropdown > ul > li > a { color: #000; }
 .navbar-xs .navbar-nav > li > ul > li > a > img { width: 16px }
+
+/* Chat */
+.chat_box{background:#fff;width:270px;height:363px;position:fixed;bottom:0px;right:14px;border:none;border-radius:5px 5px 0 0;-webkit-box-shadow:0 10px 50px 0 rgba(0,0,0,0.25);-moz-box-shadow:0 10px 50px 0 rgba(0,0,0,0.25);box-shadow:0 10px 50px 0 rgba(0,0,0,0.25);overflow:hidden;z-index:1000000;display:none}
+.pesan_chat{text-align:center;text-decoration:none;display:block;height:100%;padding:5px 5px 15px}
+.chatheader{margin:0 auto;padding:0 10px;height:35px;line-height:35px;font-size:16px;font-weight:700;color:#fff;text-align:left;display:block;cursor:pointer;background:#3a5897;cursor:move}
+.chatheader:before{content:'\f111';font-family:fontawesome;color:#42b72a;font-size:12px;position:relative;top:-2px}
+.pesan_chat p{color:#616161;font-size:14px;margin:10px;cursor:move}
+.close-chatfb{position:absolute;top:0;right:0;font-family:fontawesome;font-size:15px;font-weight:inherit;cursor:pointer;width:24px;color:#fff;height:35px;line-height:35px;text-align:center;opacity:.7}
+.close-chatfb:hover,.maxi-chatfb:hover,.mini-chatfb:hover{opacity:1}
+.close-chatfb:before{content:'\f00d';font-family:fontawesome}
+.buttons.rounded{margin:40px 0 0;}
+.buttons.rounded.buttons.rounded a{border:2px solid #2c4584;border-radius:35px;color:#2c4584;font-size:23px;padding:10px 21px;text-decoration:none;font-family:'Open Sans',sans-serif;}
+.buttons.rounded a:hover{border:2px solid #138be6;border-radius:35px;color:red;color:#000;font-size:23px;padding:10px 21px;text-decoration:none;}
+.popup-on{display:block!important;}
+.social {width:100%;position: relative;min-height: 1px;padding:10px 0px 0px 20px;}
+
+/* Message styles */
+#chatMessage {
+
+  position: relative;
+}
+
+#messages {
+
+  list-style-type: none;
+  padding: none;
+  position: absolute;
+  right: 0px;
+}

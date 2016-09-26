@@ -138,90 +138,90 @@ module.exports = function(router, io, routerRet) {
             res.render('codeView', { directory: req.params.id });
           });
         });
-      } else {
+      }
 
-        /* Finally redirect the user to a working repo */
-        /* Check if the user is allowed to access this repo */
 
-        /* First check if repo is public */
-        knex('repo_info')
-        .where({ repoName: req.params.id })
-        .then(function (data) {
+      /* Finally redirect the user to a working repo */
+      /* Check if the user is allowed to access this repo */
 
-          // console.log(data[0].isPublic);
-          if (data[0] && !data[0].isPublic) {
+      /* First check if repo is public */
+      knex('repo_info')
+      .where({ repoName: req.params.id })
+      .then(function (data) {
 
-            /* If user is guest, they can view all repos but not create them */
-            if (req.session.userInfo.permission === 4) {
+        // console.log(data[0].isPublic);
+        if (data[0] && !data[0].isPublic) {
 
-              res.render('codeView', { directory: req.params.id });
-            }
-
-            /* If repo is not public, check if user is allowed access */
-            knex('repo_perms')
-            .where(
-              {
-                repoName: req.params.id,
-                user_id: req.session.userInfo.id
-              }
-            ).then(function(data) {
-
-              if (data.length < 1) {
-
-                /* if this is reached, current user is not allowed access, so redirect */
-                // res.json({ error: eHelper.unauthorizedAccess });
-                res.render('error', { error: eHelper.unauthorizedAccess });
-              } else {
-
-                /* if this section is reached, the user is allowed access */
-                /* This will create a directory within the file system to store all the files */
-                if (!fs.existsSync(path.resolve('./') + '/workDirectories')) {
-
-                  fs.mkdirSync(path.resolve('./') + '/workDirectories');
-                }
-
-                if (!fs.existsSync(path.resolve('./') + '/workDirectories/' + req.params.id)) {
-                  fs.mkdirSync(path.resolve('./') + '/workDirectories/' + req.params.id);
-                }
-
-                // var dirTree = (path.resolve('./') + '/workDirectories/' + req.params.id);
-                //
-                // dHelper.getDirObj(dirTree, function(err, res){
-                //   if(err)
-                //     console.error(err);
-                //
-                //   console.log(JSON.stringify(res));
-                // });
-
-                res.render('codeView', { directory: req.params.id });
-              }
-            });
-          } else {
-
-            /* if this section is reached, the user is allowed access */
-            /* This will create a directory within the file system to store all the files */
-            if (!fs.existsSync(path.resolve('./') + '/workDirectories')) {
-
-              fs.mkdirSync(path.resolve('./') + '/workDirectories');
-            }
-
-            if (!fs.existsSync(path.resolve('./') + '/workDirectories/' + req.params.id)) {
-              fs.mkdirSync(path.resolve('./') + '/workDirectories/' + req.params.id);
-            }
-
-            // var dirTree = (path.resolve('./') + '/workDirectories/' + req.params.id);
-            //
-            // dHelper.getDirObj(dirTree, function(err, res){
-            //   if(err)
-            //     console.error(err);
-            //
-            //   console.log(JSON.stringify(res));
-            // });
+          /* If user is guest, they can view all repos but not create them */
+          if (req.session.userInfo.permission === 4) {
 
             res.render('codeView', { directory: req.params.id });
           }
-        });
-      }
+
+          /* If repo is not public, check if user is allowed access */
+          knex('repo_perms')
+          .where(
+            {
+              repoName: req.params.id,
+              user_id: req.session.userInfo.id
+            }
+          ).then(function(data) {
+
+            if (data.length < 1) {
+
+              /* if this is reached, current user is not allowed access, so redirect */
+              // res.json({ error: eHelper.unauthorizedAccess });
+              res.render('error', { error: eHelper.unauthorizedAccess });
+            } else {
+
+              /* if this section is reached, the user is allowed access */
+              /* This will create a directory within the file system to store all the files */
+              if (!fs.existsSync(path.resolve('./') + '/workDirectories')) {
+
+                fs.mkdirSync(path.resolve('./') + '/workDirectories');
+              }
+
+              if (!fs.existsSync(path.resolve('./') + '/workDirectories/' + req.params.id)) {
+                fs.mkdirSync(path.resolve('./') + '/workDirectories/' + req.params.id);
+              }
+
+              // var dirTree = (path.resolve('./') + '/workDirectories/' + req.params.id);
+              //
+              // dHelper.getDirObj(dirTree, function(err, res){
+              //   if(err)
+              //     console.error(err);
+              //
+              //   console.log(JSON.stringify(res));
+              // });
+
+              res.render('codeView', { directory: req.params.id });
+            }
+          });
+        } else {
+
+          /* if this section is reached, the user is allowed access */
+          /* This will create a directory within the file system to store all the files */
+          if (!fs.existsSync(path.resolve('./') + '/workDirectories')) {
+
+            fs.mkdirSync(path.resolve('./') + '/workDirectories');
+          }
+
+          if (!fs.existsSync(path.resolve('./') + '/workDirectories/' + req.params.id)) {
+            fs.mkdirSync(path.resolve('./') + '/workDirectories/' + req.params.id);
+          }
+
+          // var dirTree = (path.resolve('./') + '/workDirectories/' + req.params.id);
+          //
+          // dHelper.getDirObj(dirTree, function(err, res){
+          //   if(err)
+          //     console.error(err);
+          //
+          //   console.log(JSON.stringify(res));
+          // });
+
+          res.render('codeView', { directory: req.params.id });
+        }
+      });
     });
   });
 
@@ -290,11 +290,15 @@ module.exports = function(router, io, routerRet) {
       socket.leave(socket.room);
     });
 
+    socket.on('chatMessage', function(data) {
+
+      console.log(data);
+      socket.broadcast.to(socket.room).emit('newClientChatMessage', { user: data.user, message: data.message });
+    });
+
     socket.on('codeChange', function(data) {
 
-      //console.log('Code change event received');
-      var codeHi = data.key;//Prism.highlight(data.key, Prism.languages.javascript);
-      // console.log(codeHi, '\n--');
+      var codeHi = data.key;
       socket.broadcast.to(socket.room).emit('codeChangeHappen', { key: codeHi });
     });
 

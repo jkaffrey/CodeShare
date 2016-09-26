@@ -9,7 +9,7 @@ function getProject() {
 
 function getPath() {
 
-  return getProject() + '/' + $('#fileTree').jstree(true).get_path($('#fileTree').jstree(true).get_selected(), '/');
+  return getProject() + '/' + $('#fileTree').jstree(true).get_path($('#fileTree').jstree(true).get_selected(), '/') + '/';
 }
 
 function createFile() {
@@ -17,7 +17,11 @@ function createFile() {
   var fileName = prompt('Please enter a file name.');
   if (getPath().indexOf('false') < 0) {
 
+    console.log(getPath());
     socket.emit('fileManip', { action: 'createFile', dir: getPath(), name: fileName });
+  } else {
+
+    socket.emit('fileManip', { action: 'createFile', dir: getProject() + '/', name: fileName });
   }
 }
 
@@ -27,6 +31,9 @@ function createFolder() {
   if (getPath().indexOf('false') < 0) {
 
     socket.emit('fileManip', { action: 'createFolder', dir: getPath(), name: fileName });
+  } else {
+
+    socket.emit('fileManip', { action: 'createFolder', dir: getProject() + '/', name: fileName });
   }
 }
 
@@ -54,6 +61,14 @@ function saveFile() {
     var toSave = editor.session.getValue();
     socket.emit('fileManip', { action: 'saveSingle', dir: getPath(), text: toSave });
   }
+}
+
+function sendMessage(user) {
+
+  var message = $('#theMessage').val();
+  $('#messages').append('<li class="ownMessage">' + message + '</li>');
+  socket.emit('chatMessage', { user: user, message: message });
+  console.log('Sent');
 }
 
 function saveAll() {
