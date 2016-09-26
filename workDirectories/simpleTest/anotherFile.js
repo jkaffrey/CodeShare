@@ -4,7 +4,7 @@
 
 function doSomeThings() {
     
-    var boolean = false;
+    var boolean = true;
     if (boolean) console.log('Meh');
     else console.log('Beh');
 }

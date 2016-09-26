@@ -1,7 +1,8 @@
-{{#if session.userInfo}}
-{{else}}
-<div class="container">
+
+<div class="headerMain">
   <div class="row main">
+    {{#if session.userInfo}}
+    {{else}}
     <div class="main-login main-center">
       <form class="form-horizontal" method="post" action="./auth/login">
 
@@ -33,6 +34,24 @@
         </div>
       </form>
     </div>
+    {{/if}}
   </div>
 </div>
-{{/if}}
+<div class="daBody">
+  <div class="row">
+    <div class="col-md-6 about">
+      <h4 class="center">About CodeShare</h4>
+      <hr />
+      <p>CodeShare is app designed to simplify paired programming. Once an individual signs up, they can then create repositories. These repositories contain a folder structure within them for file management. The files within these repositories can then be viewed and edited by multiple users at the sametime given they were invited to collaborate on the project. The repositiories also have a built in compiler where users can run their code live on the website and see the output. Users also have permissions on what they can do with repositories that they have access to. These roles are Owner, Admin, Collaborator, Viewer and Guest.</p>
+    </div>
+    <div class="col-md-6 info">
+      <h4 class="center">Developer Info</h4>
+      <hr />
+      <p>CodeShare was developed as a Capstone project by Jeremy Kaffrey. You can find more info about this project and about Jeremy at the links bellow.</p>
+      <div class="center">
+        <a href="https://github.com/jkaffrey/CodeShare"><img src="/images/github.png"></a>&nbsp;
+        <a href="http://www.linkedin.com/in/jeremy-kaffrey"><img src="/images/linkedin.png"></a>
+      </div>
+    </div>
+  </div>
+</div>

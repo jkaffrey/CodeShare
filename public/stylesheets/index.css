@@ -1,0 +1,41 @@
+.headerMain {
+
+  margin-top: -35px;
+  background-image: url("/images/blurBackground.png");
+  padding-top: 15px;
+  padding-bottom: 25px;
+  height: 500px;
+}
+
+.about {
+
+  padding: 20px;
+  padding-left: 50px;
+  border-right: 1px solid white;
+  border-top: 1px solid black;
+}
+
+.info {
+
+  padding: 20px;
+  padding-right: 50px;
+  border-left: 1px solid rgb(242, 242, 242);
+  border-top: 1px solid black;
+}
+
+.footer {
+
+  position: fixed;
+  background: white;
+  width: 100%;
+  height: 50px;
+  bottom: 0px;
+  padding: 10px;
+  margin-top: 50px;
+}
+
+.daBody {
+
+  padding-bottom: 50px;
+  margin-bottom: 50px;
+}

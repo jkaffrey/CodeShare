@@ -3,12 +3,17 @@ module.exports = {
 
     development: {
         client: 'pg',
-        connection: process.env.DATABASE_URL || 'postgresql://localhost/codeshare'
+        connection: {
+          host: '127.0.0.1',
+          database: 'codeshare'
+        }
     },
 
     production: {
         client: 'pg',
-        connection: process.env.DATABASE_URL || 'postgresql://localhost/codeshare'
+        connection: {
+          host: '127.0.0.1',
+          database: 'codeshare'
+        }
     }
-
 };

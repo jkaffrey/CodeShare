@@ -7,7 +7,7 @@
         <ul class="nav nav-tabs">
           <li class="active"><a href="#tab1default" data-toggle="tab">Profile Settings</a></li>
           <li><a href="#tab2default" data-toggle="tab">Repositories</a></li>
-          <li><a href="#tab3default" data-toggle="tab">Other</a></li>
+          <!-- <li><a href="#tab3default" data-toggle="tab">Other</a></li> -->
         </ul>
       </div>
       <div class="panel-body">
@@ -19,10 +19,10 @@
                 <div class="well profile">
                   <div class="col-sm-12">
                     <div class="col-xs-12 col-sm-8">
-                      <h2>{{session.userInfo.firstname}}&nbsp;{{session.userInfo.lastname}}</h2>
-                      <p><strong>E-Mail: </strong> {{session.userInfo.email}} </p>
-                      <p><strong>Security Question: </strong> {{session.userInfo.securtyQuestion}} </p>
-                      <p><strong>Security Answer: </strong> ***** </p>
+                      <h2>{{session.userInfo.firstname}}&nbsp;{{session.userInfo.lastname}}&nbsp;<i class="fa fa-pencil" aria-hidden="true"></i></h2>
+                      <p><strong>E-Mail: </strong> {{session.userInfo.email}}</p>
+                      <p><strong>Security Question: </strong> {{session.userInfo.securtyQuestion}}</p>
+                      <p><strong>Security Answer: </strong> *****</p>
                     </div>
                     <div class="col-xs-12 col-sm-4 text-center">
                       <figure>
