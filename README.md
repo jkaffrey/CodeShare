@@ -24,3 +24,7 @@ Guest
 * View ANY repository on the website
 * This is a debugging feature and is only directly assignable through a SQL command.
 
+## Technical Details
+CodeShare was design using NodeJS and Express for the brunt of the work. HandleBars was used to render the various page views.
+
+
