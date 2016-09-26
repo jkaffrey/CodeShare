@@ -150,8 +150,8 @@ pre {
 .navbar-xs .navbar-nav > li > ul > li > a > img { width: 16px }
 
 /* Chat */
-.chat_box{background:#fff;width:270px;height:363px;position:fixed;bottom:0px;right:14px;border:none;border-radius:5px 5px 0 0;-webkit-box-shadow:0 10px 50px 0 rgba(0,0,0,0.25);-moz-box-shadow:0 10px 50px 0 rgba(0,0,0,0.25);box-shadow:0 10px 50px 0 rgba(0,0,0,0.25);overflow:hidden;z-index:1000000;display:none}
-.pesan_chat{padding:5px 5px 15px}
+.chat_box{background:#fff;width:370px;height:363px;position:fixed;bottom:0px;right:14px;border:none;border-radius:5px 5px 0 0;-webkit-box-shadow:0 10px 50px 0 rgba(0,0,0,0.25);-moz-box-shadow:0 10px 50px 0 rgba(0,0,0,0.25);box-shadow:0 10px 50px 0 rgba(0,0,0,0.25);overflow:hidden;z-index:1000000;display:none}
+.pesan_chat{padding:5px 5px 15px; background-color: #DFDFDF;}
 .chatheader{margin:0 auto;padding:0 10px;height:35px;line-height:35px;font-size:16px;font-weight:700;color:#fff;text-align:left;display:block;cursor:pointer;background:#3a5897;cursor:move}
 .chatheader:before{content:'\f111';font-family:fontawesome;color:#42b72a;font-size:12px;position:relative;top:-2px}
 .close-chatfb{position:absolute;top:0;right:0;font-family:fontawesome;font-size:15px;font-weight:inherit;cursor:pointer;width:24px;color:#fff;height:35px;line-height:35px;text-align:center;opacity:.7}
@@ -163,16 +163,37 @@ pre {
 .popup-on{display:block!important;}
 .social {width:100%;position: relative;min-height: 1px;padding:10px 0px 0px 20px;}
 
-/* Message styles */
-/*#chatMessage {
-
-  position: relative;
-}*/
-
 #messageList {
 
-  list-style-type: none;
-  padding-left: -20px;
-  overflow: auto;
-  max-height: inherit;
+  height: 275px;
+  max-height: 290px;
+  overflow-y: scroll;
+}
+
+#messageList > p.stdMessage {
+
+  padding: 10px;
+  padding-bottom: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  position: relative;
+}
+
+#messageList > p.stdMessage > .sender {
+
+  font-size: 10px;
+  position: absolute;
+  right: 7px;
+  bottom: 5px;
+}
+
+#messageList > p.otherMessage {
+
+  margin-right: 100px;
+}
+
+#messageList > p.ownMessage {
+
+  margin-left: 100px;
+
 }

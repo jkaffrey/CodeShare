@@ -196,10 +196,18 @@ $(function() {
 
       var user = loggedData.firstname + ' ' + loggedData.lastname;
       console.log(data.user.indexOf(loggedData.firstname));
-      if ((loggedData.firstname + ' ' + loggedData.lastname) !== data.user) {
 
-        $('#messageList').append('<li class="contentMessage">' + data.message + '</li>');
+      var $container = $('#messageList');
+      if (data.user.indexOf(loggedData.firstname) >= 0) {
+
+        $container.append('<p class="stdMessage ownMessage">' + data.message + '<br /><span class="sender">You @ ' + moment().format('LTS') + '</span></p>');
+      } else {
+
+        $container.append('<p class="stdMessage otherMessage">' + data.message + '<br /><span class="sender">' + data.user + ' @ ' + moment().format('LTS') + '</span></p>');
       }
+      $container.animate({ scrollTop: $container[0].scrollHeight }, 'slow');
+
+      $('#messageList').scrollTop = $('#messageList').scrollHeight;
     });
   });
 });
