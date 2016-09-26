@@ -299,7 +299,7 @@ module.exports = function(router, io, routerRet) {
     socket.on('codeChange', function(data) {
 
       var codeHi = data.key;
-      socket.broadcast.to(socket.room).emit('codeChangeHappen', { key: codeHi });
+      socket.broadcast.to(socket.room).emit('codeChangeHappen', { key: codeHi, file: data.file });
     });
 
     socket.on('fileManip', function(data) {

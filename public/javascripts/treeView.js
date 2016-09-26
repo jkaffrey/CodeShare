@@ -9,7 +9,7 @@ function getProject() {
 
 function getPath() {
 
-  return getProject() + '/' + $('#fileTree').jstree(true).get_path($('#fileTree').jstree(true).get_selected(), '/') + '/';
+  return getProject() + '/' + $('#fileTree').jstree(true).get_path($('#fileTree').jstree(true).get_selected(), '/');
 }
 
 function createFile() {
@@ -18,7 +18,7 @@ function createFile() {
   if (getPath().indexOf('false') < 0) {
 
     console.log(getPath());
-    socket.emit('fileManip', { action: 'createFile', dir: getPath(), name: fileName });
+    socket.emit('fileManip', { action: 'createFile', dir: getPath() + '/', name: fileName });
   } else {
 
     socket.emit('fileManip', { action: 'createFile', dir: getProject() + '/', name: fileName });
@@ -30,7 +30,7 @@ function createFolder() {
   var fileName = prompt('Please enter a folder name.');
   if (getPath().indexOf('false') < 0) {
 
-    socket.emit('fileManip', { action: 'createFolder', dir: getPath(), name: fileName });
+    socket.emit('fileManip', { action: 'createFolder', dir: getPath() + '/', name: fileName });
   } else {
 
     socket.emit('fileManip', { action: 'createFolder', dir: getProject() + '/', name: fileName });
