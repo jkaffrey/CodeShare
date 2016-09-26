@@ -46,8 +46,8 @@
     <ul class="recentConnections">
     </ul>
     <!-- <span class="chat"><a href="" id="addClass"><i class="fa fa-comments-o" aria-hidden="true"></i> Open Chat</a></span> -->
-    <div class="buttons rounded text-center">
-      <a id="addClass"><span class="fa fa-facebook-square"></span> Messenger </a>
+    <div class="text-center">
+      <a id="addClass"><i class="fa fa-comments-o" aria-hidden="true"></i> Messaging </a>
     </div>
   </div>
 </div>
@@ -79,8 +79,16 @@
   <div class="pesan_chat">
     <div id="messageList"></div>
     <div id="chatMessage row col-md-12" style="position: absolute; bottom: 5px">
-      <input id="theMessage" type="text">
-      <input type="button" value="Send" onclick="sendMessage('{{session.userInfo.firstname}}&nbsp;{{session.userInfo.lastname}}');">
+      <!-- <input id="theMessage" type="text"> -->
+      <!-- <input type="button" value="Send" onclick="sendMessage('{{session.userInfo.firstname}}&nbsp;{{session.userInfo.lastname}}');"> -->
+      <div class="panel-footer">
+        <div class="input-group">
+          <input id="theMessage" type="text" class="form-control input-sm chat_input" placeholder="Write your message here..." />
+          <span class="input-group-btn">
+            <button class="btn btn-primary btn-sm" id="btn-chat" onclick="sendMessage('{{session.userInfo.firstname}}&nbsp;{{session.userInfo.lastname}}');">Send</button>
+          </span>
+        </div>
+      </div>
     </div>
   </div>
 </div>
