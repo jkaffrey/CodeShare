@@ -293,7 +293,7 @@ module.exports = function(router, io, routerRet) {
     socket.on('chatMessage', function(data) {
 
       console.log(data);
-      socket.broadcast.to(socket.room).emit('newClientChatMessage', { user: data.user, message: data.message });
+      socket.broadcast.to(data.room).emit('newClientChatMessage', { user: data.user, message: data.message });
     });
 
     socket.on('codeChange', function(data) {

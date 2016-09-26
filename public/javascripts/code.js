@@ -192,8 +192,15 @@ $(function() {
 
   socket.on('newClientChatMessage', function(data) {
 
-    console.log('Things', data.message);
-    $('#messages').append('<li class="ownMessage">' + data.message + '</li>');
+    $.get('/api/v1/loggedInfo/' + id, function(loggedData) {
+
+      var user = loggedData.firstname + ' ' + loggedData.lastname;
+      console.log(data.user.indexOf(loggedData.firstname));
+      if ((loggedData.firstname + ' ' + loggedData.lastname) !== data.user) {
+
+        $('#messageList').append('<li class="contentMessage">' + data.message + '</li>');
+      }
+    });
   });
 });
 

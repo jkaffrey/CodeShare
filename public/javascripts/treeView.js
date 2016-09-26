@@ -65,10 +65,9 @@ function saveFile() {
 
 function sendMessage(user) {
 
-  var message = $('#theMessage').val();
-  $('#messages').append('<li class="ownMessage">' + message + '</li>');
-  socket.emit('chatMessage', { user: user, message: message });
-  console.log('Sent');
+  // $('#messageList').append('<li class="ownMessage">' + $('#theMessage').val() + '</li>');
+  socket.emit('chatMessage', { user: user, message: $('#theMessage').val(), room: getProject()[0] });
+  $('#theMessage').val('');
 }
 
 function saveAll() {
