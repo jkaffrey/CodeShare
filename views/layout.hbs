@@ -49,7 +49,7 @@
               <i class="fa fa-chevron-down" aria-hidden="true"></i>
             </a>
             {{else}}
-              <span class="navbar-nav additionalProps"><a href="/register">Register</a> | <a href="/">Login</a></span>
+            <span class="navbar-nav additionalProps"><a href="/register">Register</a> | <a href="" data-toggle="modal" data-target="#loginModal">Login</a></span>
             {{/if}}
             <ul class="dropdown-menu">
               <li>
@@ -81,8 +81,8 @@
                     <div class="col-lg-12">
                       <p>
                         <form action="/auth/logout" method="post">
-                        <input type="submit" class="btn btn-danger btn-block" value="Logout" />
-                      </form>
+                          <input type="submit" class="btn btn-danger btn-block" value="Logout" />
+                        </form>
                       </p>
                     </div>
                   </div>
@@ -105,9 +105,50 @@
   </div>
   {{{body}}}
 </body>
-<!-- <footer class="footer center">
-  <p>
-    Developed By: Jeremy Kaffrey
-  </p>
-</footer> -->
+<div id="loginModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Login</h4>
+      </div>
+      <div class="modal-body">
+        <div class="main-login main-center">
+          <form class="form-horizontal" method="post" action="./auth/login">
+
+            <div class="form-group">
+              <label for="email" class="cols-sm-2 control-label">Email</label>
+              <div class="cols-sm-10">
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                  <input type="text" class="form-control" name="email" id="email"  placeholder="Enter your Email"/>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="password" class="cols-sm-2 control-label">Password</label>
+              <div class="cols-sm-10">
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                  <input type="password" class="form-control" name="password" id="password"  placeholder="Enter your Password"/>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group ">
+              <input type="submit" class="btn btn-primary btn-lg btn-block login-button" value="Login">
+            </div>
+            <div class="login-register">
+              <a href="/register">Register</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
 </html>
