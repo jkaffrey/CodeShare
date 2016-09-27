@@ -20,6 +20,11 @@ module.exports = function(router, io, routerRet) {
     res.render('index');
   });
 
+  router.get('/about', function(req, res, next) {
+
+    res.render('about');
+  });
+
   router.get('/profile', function(req, res, next) {
 
     checkJWT(req, res, next, req.session.userInfo);
