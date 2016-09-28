@@ -29,6 +29,7 @@ module.exports = function(router, io, routerRet) {
 
     checkJWT(req, res, next, req.session.userInfo);
 
+    var myRepos = 0;
     knex('repo_perms')
     .join('repo_info', 'repo_perms.repoName', '=', 'repo_info.repoName')
     .select('*')
@@ -37,10 +38,15 @@ module.exports = function(router, io, routerRet) {
 
       for (var i = 0; i < data.length; i++) {
 
+        if (pHelper.localizePermissions(data[i].permission) === 'Owner') {
+
+          myRepos++;
+        }
+
         data[i].permission = pHelper.localizePermissions(data[i].permission);
         data[i].canEdit = data[i].permission === 'Admin' || data[i].permission === 'Owner' ? true : false;
         data[i].canDelete = data[i].permission === 'Owner' ? true : false;
-        console.log(data[i]);
+        // console.log(data[i]);
         // knex('repo_info')
         // .select('repoDescription')
         // .where({ repoName: data[i].repoName})
@@ -54,7 +60,9 @@ module.exports = function(router, io, routerRet) {
 
       res.render('profile', {
         userInfo: req.session.userInfo,
-        userRepos: data
+        userRepos: data,
+        numberRepos: data.length,
+        myRepos: myRepos
       });
     });
   });
