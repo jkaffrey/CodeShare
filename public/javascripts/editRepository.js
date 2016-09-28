@@ -4,7 +4,7 @@ const collaborator = document.getElementById('collabEmail');
 
 collaborator.addEventListener('keyup', function(event) {
 
-  $.get('http://localhost:3000/api/v1/getUserByEmail/' + collaborator.value, function(data) {
+  $.get('http://collabncode.com/api/v1/getUserByEmail/' + collaborator.value, function(data) {
 
     var options = '';
     for (var i = 0; i < data.length; i++) {

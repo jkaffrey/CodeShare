@@ -49,7 +49,7 @@ email.addEventListener('keyup', function(event) {
 
 email.addEventListener('focusout', function(event) {
 
-  $.get('http://localhost:3000/api/v1/userExists/' + email.value, function(data) {
+  $.get('http://collabncode.com/api/v1/userExists/' + email.value, function(data) {
 
     if (data.isUser) {
 

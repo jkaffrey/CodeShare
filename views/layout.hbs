@@ -116,7 +116,7 @@
         <h4 class="modal-title">Register</h4>
       </div>
       <div class="modal-body">
-        <div class="row main">
+        <div class="row">
           <div class="main-login main-center">
             <form class="form-horizontal" method="post" enctype="multipart/form-data" action="/auth/signup">
 
@@ -137,7 +137,7 @@
                 <div class="cols-sm-10">
                   <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                    <input type="text" class="form-control" name="name" id="name"  placeholder="Enter your Name" pattern="^[A-Z][-'a-zA-Z]{1,}+,?\s[A-Z][-'a-zA-Z]{2,}$" required=""/>
+                    <input type="text" class="form-control" name="name" id="name"  placeholder="Enter your Name" required=""/>
                   </div>
                   <small id="errorName" hidden="">Please input your first and last name.</small>
                 </div>
@@ -207,10 +207,6 @@
               </div>
 
               <input type="submit" class="btn btn-primary btn-lg btn-block login-button" value="Register">
-
-              <div class="login-register">
-                <a href="/">Login</a>
-              </div>
             </form>
           </div>
         </div>
@@ -258,9 +254,6 @@
 
             <div class="form-group ">
               <input type="submit" class="btn btn-primary btn-lg btn-block login-button" value="Login">
-            </div>
-            <div class="login-register">
-              <a href="/register">Register</a>
             </div>
           </form>
         </div>

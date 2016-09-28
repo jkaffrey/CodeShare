@@ -15,15 +15,15 @@ function generateUUID() {
 function sendEmail(to, uuid) {
 
   // create reusable transporter object using the default SMTP transport
-  var transporter = nodemailer.createTransport('smtps://jkaffrey%40gmail.com:PresidentKaff!12@smtp.gmail.com');
+  var transporter = nodemailer.createTransport('smtps://postmaster%40collabncode.com:2c109e26f3c1d4293ca2e84f344d03e5@smtp.mailgun.org');
 
   // setup e-mail data with unicode symbols
   var mailOptions = {
-    from: '"CodeShare Verification 👥" <verify@codeshare.com>', // sender address
+    from: '"CodeShare Verification"', // sender address
     to: to, // list of receivers
     subject: 'Verify your email for CodeShare', // Subject line
-    text: 'Welcome to CodeShare \nBefore you can use our service you need to active your account. Please click on this link to active your email: localhost:3000/verify/' + uuid, // plaintext body
-    html: 'Welcome to CodeShare <br />Before you can use our service you need to active your account. Please click on this link to active your email: localhost:3000/verify/' + uuid // html body
+    text: 'Welcome to CodeShare \n\nBefore you can use our service you need to active your account. Please click on this link to active your email: www.collabncode.com/verify/' + uuid, // plaintext body
+    html: 'Welcome to CodeShare <br /><br />Before you can use our service you need to active your account. Please click on this link to active your email: <a href="www.collabncode.com/verify/' + uuid + '">www.collabncode.com/verify/' + uuid + '</a>'// html body
   };
 
   // send mail with defined transport object
