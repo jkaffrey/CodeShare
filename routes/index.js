@@ -317,6 +317,7 @@ module.exports = function(router, io, routerRet) {
 
     socket.on('fileManip', function(data) {
 
+      var updateDealingDir = data.dir.indexOf('.') >= 0 ? data.dir.match(new RegExp('^(.*[\\\/])'))[0] : data.dir;
       var dealingDir = data.dir.indexOf('.') >= 0 ? data.dir.match(new RegExp('^(.*[\\\/])'))[0] : data.dir;
       var isFile = data.dir.indexOf('.') >= 0 ? true : false;
       var fullPath = path.resolve('./') + '/workDirectories/' + dealingDir + data.name;
@@ -324,11 +325,40 @@ module.exports = function(router, io, routerRet) {
 
       if (data.action === 'createFile') {
 
-        fs.writeFile(fullPath, '', function(err) {
+        if (fullPath.indexOf('.') !== -1) {
 
-          if (err) console.log(err);
-          else updateView(codeConnection, dealingDir);
-        });
+          // console.log('Has file name', path.resolve('./') + '/workDirectories/' + dealingDir + data.name);
+          fs.lstat(pathWithFileName, function(err, stats) {
+            if (err) {
+
+              console.log(data.dir);
+              var newDir = data.dir.split('/');
+              newDir.pop();
+              newDir.pop();
+              data.dir = newDir.join('/') + '/';
+              dealingDir = data.dir.indexOf('.') >= 0 ? data.dir.match(new RegExp('^(.*[\\\/])'))[0] : data.dir;
+              console.log(data.dir);
+            }
+            if (!err && stats.isDirectory()) {
+
+              console.log('tada');
+            }
+
+            fs.writeFile(path.resolve('./') + '/workDirectories/' + dealingDir + data.name, '', function(err) {
+
+              if (err) console.log(err);
+              else updateView(codeConnection, updateDealingDir);
+            });
+          });
+        } else {
+
+          console.log('Writing file');
+          fs.writeFile(pathWithFileName, '', function(err) {
+
+            if (err) console.log(err);
+            else updateView(codeConnection, updateDealingDir);
+          });
+        }
       } else if (data.action === 'createFolder') {
 
         fs.mkdirSync(fullPath);
@@ -342,7 +372,7 @@ module.exports = function(router, io, routerRet) {
 
           deleteFolderRecursive(pathWithFileName);
         }
-        updateView(codeConnection, dealingDir);
+        updateView(codeConnection, updateDealingDir);
       } else if (data.action === 'rename') {
 
         console.log(pathWithFileName, fullPath);
@@ -351,7 +381,7 @@ module.exports = function(router, io, routerRet) {
           if (err) throw err;
           else {
 
-            updateView(codeConnection, dealingDir);
+            updateView(codeConnection, updateDealingDir);
           }
         });
       } else if (data.action === 'saveSingle') {
@@ -365,7 +395,7 @@ module.exports = function(router, io, routerRet) {
         });
       } else if (data.action === 'updateView') {
 
-        updateView(codeConnection, dealingDir);
+        updateView(codeConnection, updateDealingDir);
       }
     });
   });
